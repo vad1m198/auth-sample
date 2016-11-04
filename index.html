@@ -17,12 +17,14 @@
 </head>
 <body>
   <h1>Hello World! oauth2</h1>
-  <button>google</button>
-  <button>logout</button>
+  <button onclick="login()">google</button>
+  
    <script src="require.js"></script>
    <!--script src="oauth2-client.js"></script-->
    <script>
-   requirejs(['oauth2-client'], function() {
+   var login = function() {
+
+     requirejs(['oauth2-client'], function() {
       var OAuth = require('oauth2-client');
     var google = new OAuth.Provider({
         id: 'google',   // required
@@ -44,6 +46,9 @@
     // Do the redirect
     window.location.href = uri;
    })
+
+   } 
+   
   
    </script>
   
