@@ -16,15 +16,42 @@
   <link rel="shortcut icon" href="">
 </head>
 <body>
-  <h1>Hello World!</h1>
-  <button onclick="hello('google').login()">google</button>
-  <button onclick="hello('google').logout()">logout</button>
+  <h1>Hello World! oauth2</h1>
+  <button>google</button>
+  <button>logout</button>
+   <script src="oauth2-client.js"></script>
+   <script>
+    var google = new OAuth.Provider({
+        id: 'google',   // required
+        authorization_url: 'https://google.com/auth' // required
+    });
+        console.log("google >>>>>>>>>>", google)
+    var request = new OAuth.Request({
+    client_id: '284651448201-vik8f5r166hgcd2irmj685gh3mbatoh5.apps.googleusercontent.com',  // required
+    redirect_uri: 'http://my.server.com/auth-answer'
+    });
+    console.log("request >>>>>>>>>>", request)
+    // Give it to the provider
+    var uri = google.requestToken(request);
+    console.log("URI >>>>>>>>>>", uri)
+    // Later we need to check if the response was expected
+    // so save the request
+    google.remember(request);
+
+    // Do the redirect
+    window.location.href = uri;
+   </script>
+  
+</body>
+</html>
+
+
   <!-- SCRIPTS -->
   <!-- 
       <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
       <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
       -->
-  <script src="hello.all.js"></script>
+  <!--script src="hello.all.js"></script>
   <script>
     hello.init({
       google: "284651448201-vik8f5r166hgcd2irmj685gh3mbatoh5.apps.googleusercontent.com"
@@ -52,7 +79,4 @@
       if (lab != null) document.body.removeChild( lab );
     });
 
-  </script>
-  
-</body>
-</html>
+  </script-->
