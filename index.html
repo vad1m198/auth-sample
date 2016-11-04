@@ -22,8 +22,8 @@
    <script src="require.js"></script>
    <!--script src="oauth2-client.js"></script-->
    <script>
-   requirejs(['oauth2-client-js'], function() {
-      var OAuth = require('oauth2-client-js');
+   requirejs(['oauth2-client'], function() {
+      var OAuth = require('oauth2-client');
     var google = new OAuth.Provider({
         id: 'google',   // required
         authorization_url: 'https://google.com/auth' // required
