@@ -1,24 +1,11 @@
-/*
-hello.init({	
-	google: '284651448201-0l5camnj82uu7keso8gvfn288fnsvga9.apps.googleusercontent.com'
-}, {redirect_uri: 'https://static-site-serve.herokuapp.com'});
+var ClientOAuth2 = require('client-oauth2')
 
-hello.on('auth.login', function(auth) {
-
-	// Call user information, for the given network
-	hello(auth.network).api('me').then(function(r) {
-		// Inject it into the container
-		var label = document.getElementById('profile_' + auth.network);
-		if (!label) {
-			label = document.createElement('div');
-			label.id = 'profile_' + auth.network;
-			document.getElementById('profile').appendChild(label);
-		}
-		label.innerHTML = '<img src="' + r.thumbnail + '" /> Hey ' + r.name;
-	});
-});
-*/
-
-hello.init({
-google: "284651448201-vik8f5r166hgcd2irmj685gh3mbatoh5.apps.googleusercontent.com"     // not real id
-});
+var githubAuth = new ClientOAuth2({
+  clientId: 'abc',
+  clientSecret: '123',
+  accessTokenUri: 'https://github.com/login/oauth/access_token',
+  authorizationUri: 'https://github.com/login/oauth/authorize',
+  authorizationGrants: ['credentials'],
+  redirectUri: 'http://example.com/auth/github/callback',
+  scopes: ['notifications', 'gist']
+})
