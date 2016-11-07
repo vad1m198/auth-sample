@@ -16,9 +16,22 @@
   <link rel="shortcut icon" href="">
 </head>
 <body>
-  <h1>Hello World!</h1>
-  <button onclick="CreateToken()">Create</button>
-  <script src="build/bundle.js"></script>
+    
+  <form name="calculateForm"  onsubmit="calculate(event)">
+    <label for="user_name">Name</label>
+    <input type="text" id="user_name" required/>
+
+    <label for="DoB">Date of Birth</label>
+    <input type="text" id="DoB" required placeholder="yyyy-mm-dd"/>
+
+    <input type="submit" value="Calculate">
+  </form>
+
+  <span id="spent"></span>
+  <br/>
+  <span id="left"></span>
+
+  <script src="app.js"></script>
   
 </body>
 </html>
