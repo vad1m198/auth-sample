@@ -54,7 +54,7 @@
             if(parseFloat(oauthParamsPassed['state']) === this.state) {
                 this.oauthParamsBB = oauthParamsPassed;                
             } else {
-                console.log(this.state, oauthParamsPassed['state'])
+                console.log(this.stateBB, oauthParamsPassed['state'])
                 throw 'setOauthParams parent error. State does not match'
             }
         }
