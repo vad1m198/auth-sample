@@ -7,9 +7,9 @@
 </head>
 <body>
 
-    <button onclick="startOauth();">Google</button>
+    <button onclick="startOauthGD();">Google</button>
     <br/>
-    <button onclick="callApi();">Call Api</button>
+    <button onclick="callApiGD();">Call Google Api</button>
 
     <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
     
@@ -21,7 +21,7 @@
         var scope = 'https://www.google.com/m8/feeds/';
         var state;
 
-        function startOauth() {
+        function startOauthGD() {
             //generate a pseudo-random number for state
             var rand = Math.random();
             var dateTime = new Date().getTime();
@@ -40,7 +40,7 @@
              
         }
 
-        function setOauthParams(oauthParamsPassed) {
+        function setOauthParamsGD(oauthParamsPassed) {
             if(parseFloat(oauthParamsPassed['state']) === this.state) {
                 this.oauthParams = oauthParamsPassed;                
             } else {
@@ -49,14 +49,14 @@
             }
         }
 
-        function callApi() {            
+        function callApiGD() {            
             var contactsUrl = 'https://www.google.com/m8/feeds/contacts/default/full?v=3.0&alt=json';            
             contactsUrl += "&access_token=" + encodeURIComponent(oauthParams['access_token']);            
             $.ajax({
                 'url': contactsUrl,
                 'dataType': 'jsonp',
                 'success': function(data) {                    
-                    showResponse(data);
+                    showResponseGD(data);
                     
                 },
                 'error': function(error) {                    
@@ -66,7 +66,7 @@
             });
         }
 
-        function showResponse(data) {            
+        function showResponseGD(data) {            
             console.log('showResponse', data);
             data.feed.entry.forEach( i => {
                 let name = (i.gd$name && i.gd$name.gd$fullName.$t) || 'unknown name' ;
