@@ -61,11 +61,12 @@
         }
 
         function callApiBB() {            
-            var contactsUrl = 'https://api.bitbucket.org/2.0/user&alt=json';   
+            var userUrl = 'https://api.bitbucket.org/2.0/user?alt=json';   
             //https://bitbucket.org/site/oauth2/authorize
-            contactsUrl += "&access_token=" + encodeURIComponent(oauthParamsBB['access_token']);            
+            userUrl += "?access_token=" + encodeURIComponent(oauthParamsBB['access_token']);        
+            console.log("userUrl", userUrl);
             $.ajax({
-                'url': contactsUrl,
+                'url': userUrl,
                 'dataType': 'jsonp',
                 'success': function(data) {                    
                     showResponseBB(data);
