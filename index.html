@@ -68,7 +68,7 @@
 
         function showResponse(data) {            
             console.log('showResponse', data);
-            console.log('showResponse>>>>', data.feed.entry.forEach( i => console.log(i.title.$t)) );
+            data.feed.entry.forEach( i => console.log(i.gd$name.gd$fullName + ' ' + i.gd$email[0].address));
         }
 
         function showError(error) {            
