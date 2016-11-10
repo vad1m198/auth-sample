@@ -41,7 +41,7 @@
         }
 
         function setOauthParams(oauthParamsPassed) {
-            if(oauthParamsPassed['state'] === this.state) {
+            if(parseFloat(oauthParamsPassed['state']) === this.state) {
                 this.oauthParams = oauthParamsPassed;
                 console.log('setOauthParams parent success >>>>>>>', oauthParamsPassed)
             } else {
