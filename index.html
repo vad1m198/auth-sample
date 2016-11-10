@@ -41,8 +41,13 @@
         }
 
         function setOauthParams(oauthParamsPassed) {
-            this.oauthParams = oauthParamsPassed;
-            console.log('setOauthParams parent >>>>>>>', oauthParamsPassed)
+            if(oauthParamsPassed['state'] === this.state) {
+                this.oauthParams = oauthParamsPassed;
+                console.log('setOauthParams parent success >>>>>>>', oauthParamsPassed)
+            } else {
+                consoel.log(this.state, oauthParamsPassed['state'])
+                throw 'setOauthParams parent error. State does not match'
+            }
         }
 
         function callApi() {
