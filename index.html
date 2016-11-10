@@ -47,7 +47,7 @@
 
         function callApi() {
             console.log("callApi >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-            var contactsUrl = 'https://www.google.com/m8/feeds/contacts/default/full?v=3.0&alt=json-in-script';
+            var contactsUrl = 'https://www.google.com/m8/feeds/contacts/default/full?v=3.0&alt=json-in-script&callback=showResponse';
             //document.getElementById('accee_request').style.display = 'none';
             //var oauthParams = this.getOauthParams();
             contactsUrl += "&access_token=" + encodeURIComponent(oauthParams['access_token']);
@@ -56,14 +56,21 @@
                 'url': contactsUrl,
                 'dataType': 'jsonp',
                 'success': function(data) {
-                    console.log('ajax response >>>>>>>>>>>', data);
+                    //console.log('ajax response >>>>>>>>>>>', data);
+                    showResponse(data, 'success');
                     
                 },
                 'error': function(error) {
-                    console.log('ajax error >>>>>>>>>>>', error);
+                    //console.log('ajax error >>>>>>>>>>>', error);
+                    showResponse(data, 'error');
                     
                 }
             });
+        }
+
+        function showResponse(root, par) {
+            console.log('par', par)
+            console.log('showResponse', root)
         }
 
         
