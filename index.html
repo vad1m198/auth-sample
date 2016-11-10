@@ -26,8 +26,15 @@
                 +  '&client_id=' + encodedURIComponent(clientId)
                 +  '&scope=' + encodedURIComponent(scope)
                 +  '&state=' + encodedURIComponent(state);
-            var w = window.open(url, '_blank', 'width=500,height=400');
+            try {
+                var w = window.open(url, '_blank', 'width=500,height=400');
+            } catch (e) {
+                console.log('error >>>>>>>>>>>>>', e)
+            }
+             
         }
+
+        startOauth();
 
      </script>
 </body>
