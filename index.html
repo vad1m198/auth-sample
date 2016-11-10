@@ -50,12 +50,17 @@
             //document.getElementById('accee_request').style.display = 'none';
             //var oauthParams = this.getOauthParams();
             contactsUrl += "&access_token=" + encodeURIComponent(oauthParams['access_token']);
+            console.log("contactsUrl >>>>>>>>>>>>>>>", contactsUrl);
             $.ajax({
                 'url': contactsUrl,
                 'dataType': 'jsonp',
                 'success': function(data) {
                     console.log('ajax response >>>>>>>>>>>', data);
-                    //setResponse(data)
+                    
+                },
+                'error': function(error) {
+                    console.log('ajax error >>>>>>>>>>>', error);
+                    
                 }
             });
         }
