@@ -22,10 +22,10 @@
             state = rand * dateTime;
             var url = authorizationUrlBase;
             url += '?response_type=token'
-                +  '&redirect_uri=' + encodedURIComponent(redirectUri)
-                +  '&client_id=' + encodedURIComponent(clientId)
-                +  '&scope=' + encodedURIComponent(scope)
-                +  '&state=' + encodedURIComponent(state);
+                +  '&redirect_uri=' + encodeURIComponent(redirectUri)
+                +  '&client_id=' + encodeURIComponent(clientId)
+                +  '&scope=' + encodeURIComponent(scope)
+                +  '&state=' + encodeURIComponent(state);
             try {
                 var w = window.open(url, '_blank', 'width=500,height=400');
             } catch (e) {
