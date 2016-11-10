@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"> -->
+  <!--link rel="stylesheet" href="static/index.css"-->
+  <!--[if lt IE 9]>
+      <script src="//cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+      <![endif]-->
+  <link rel="shortcut icon" href="">
+</head>
+<body>
+    
+  <form name="calculateForm"  onsubmit="calculate(event)">
+    <label for="user_name">Name</label>
+    <input type="text" id="user_name" required/>
+
+    <label for="DoB">Date of Birth</label>
+    <input type="text" id="DoB" required placeholder="yyyy-mm-dd"/>
+
+    <input type="submit" value="Calculate">
+  </form>
+
+  <span>Spent: <span id="spent"></span></span>
+  <br/>
+  <span>Left: <span id="left"></span></span>
+
+  <script src="app.js"></script>
+  
+</body>
+</html>

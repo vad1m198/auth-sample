@@ -1,37 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible">
   <title></title>
   <meta charset="utf-8">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"> -->
-  <!--link rel="stylesheet" href="static/index.css"-->
-  <!--[if lt IE 9]>
-      <script src="//cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
-      <![endif]-->
-  <link rel="shortcut icon" href="">
 </head>
 <body>
     
-  <form name="calculateForm"  onsubmit="calculate(event)">
-    <label for="user_name">Name</label>
-    <input type="text" id="user_name" required/>
+     <script type="text/javascript">
+     /*
+     google: "284651448201-vik8f5r166hgcd2irmj685gh3mbatoh5.apps.googleusercontent.com"
+     https://static-site-serve.herokuapp.com
+     https://static-site-serve.herokuapp.com/index.html
+     */
 
-    <label for="DoB">Date of Birth</label>
-    <input type="text" id="DoB" required placeholder="yyyy-mm-dd"/>
+        var clientId = '284651448201-vik8f5r166hgcd2irmj685gh3mbatoh5.apps.googleusercontent.com';
+        var authorizationUrlBase = 'https://accounts.google.com/o/oauth2/auth';
+        var redirectUri = 'https://static-site-serve.herokuapp.com/index.html';
+        var scope = 'https://www.google.com/m8/feeds'/;
+        var state;
 
-    <input type="submit" value="Calculate">
-  </form>
+        function startOauth() {
+            //generate a pseudo-random nuber for state
+            var rand = Math.random();
+            var dateTime = new Date().getTime();
+            state = rand * dateTime;
+            var url = authorizationUrlBase;
+            url += '?response_type=token'
+                +  '&redirect_uri=' + encodedURIComponent(redirectUri)
+                +  '&client_id=' + encodedURIComponent(clientId)
+                +  '&scope=' + encodedURIComponent(scope)
+                +  '&state=' + encodedURIComponent(state);
+            var w = window.open(url, '_blank', 'width=500,height=400');
+        }
 
-  <span>Spent: <span id="spent"></span></span>
-  <br/>
-  <span>Left: <span id="left"></span></span>
-
-  <script src="app.js"></script>
-  
+     </script>
 </body>
 </html>
