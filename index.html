@@ -68,7 +68,11 @@
 
         function showResponse(data) {            
             console.log('showResponse', data);
-            data.feed.entry.forEach( i => console.log(i.gd$name && i.gd$name.gd$fullName.$t + ' ' + i.gd$email && i.gd$email[0].address));
+            data.feed.entry.forEach( i => {
+                let name = (i.gd$name && i.gd$name.gd$fullName.$t) || 'unknown name' ;
+                let email = i.gd$email && i.gd$email[0].address  || 'unknown mail';
+                console.log(name + ' ' + email)
+            });
         }
 
         function showError(error) {            
