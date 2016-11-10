@@ -6,6 +6,8 @@
   <meta charset="utf-8">
 </head>
 <body>
+
+    <button onclick="startOauth();">Google</button>
     
      <script type="text/javascript">
 
@@ -16,7 +18,7 @@
         var state;
 
         function startOauth() {
-            //generate a pseudo-random nuber for state
+            //generate a pseudo-random number for state
             var rand = Math.random();
             var dateTime = new Date().getTime();
             state = rand * dateTime;
@@ -34,7 +36,7 @@
              
         }
 
-        startOauth();
+        
 
      </script>
 </body>
