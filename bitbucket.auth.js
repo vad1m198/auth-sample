@@ -35,7 +35,12 @@ function setOauthParamsBB(oauthParamsPassed) {
 
 function callApiBB(url) {
     var userUrl = url;
-    userUrl += "&access_token=" + encodeURIComponent(oauthParamsBB['access_token']);        
+    if(url.indexOf('?') > -1) {
+        userUrl += '&';
+    } else {
+        userUrl += '?';
+    }
+    userUrl += "access_token=" + encodeURIComponent(oauthParamsBB['access_token']);        
     console.log("userUrl", userUrl);
     $.ajax({
         'method': 'GET',
