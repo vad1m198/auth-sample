@@ -13,7 +13,13 @@
     <br/><br/>
     <button onclick="startOauthBB();">BitBucket</button>
     <br/>
-    <button onclick="callApiBB();">Call BitBucket Api</button>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <label>Api call URL</label>
+    <input type="text" id="url"/>
+    <button onclick="">Call BB Api</button>
 
     <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
     <script src="bitbucket.auth.js"></script>
@@ -24,6 +30,13 @@
         function showError(error) {            
             console.error('error present >>>>>>', error)
         }
+
+        function() {
+            var url = document.getElementById('url');
+            callApiBB(url);
+        }
+
+
 
         
 

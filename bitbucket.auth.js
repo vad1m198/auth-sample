@@ -33,9 +33,8 @@ function setOauthParamsBB(oauthParamsPassed) {
     }
 }
 
-function callApiBB() {            
-    var userUrl = 'https://api.bitbucket.org/2.0/user';   
-    //https://bitbucket.org/site/oauth2/authorize
+function callApiBB(url) {
+    var userUrl = url;
     userUrl += "?access_token=" + encodeURIComponent(oauthParamsBB['access_token']);        
     console.log("userUrl", userUrl);
     $.ajax({
