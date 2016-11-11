@@ -66,6 +66,7 @@
             userUrl += "?access_token=" + encodeURIComponent(oauthParamsBB['access_token']);        
             console.log("userUrl", userUrl);
             $.ajax({
+                'method': 'GET',
                 'url': userUrl,
                 'dataType': 'jsonp',
                 'success': function(data) {                    
