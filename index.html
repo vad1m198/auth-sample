@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta http-equiv="X-UA-Compatible">
   <title></title>
-  <meta charset="utf-8">
 </head>
 <body ng-app="myApp">
+    {{1+1}}
 
-<a ui-sref="profiles">profiles (main state)</a>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>
+<script src="https://unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <a ui-sref="profiles">profiles (main state)</a>
 <ui-view></ui-view>
-
-    <script scr="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js" ></script>
-    <script scr="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.2/angular-ui-router.js" ></script>
-    <script>
+<script>
       let app = angular.module('myApp', ['ui.router']);
 
   app.config(function($stateProvider) {
@@ -68,6 +68,9 @@
       },
       template: `<h1>USER {{$ctrl.userId}}</h1>`,
     })
+
+
     </script>
+
 </body>
 </html>
