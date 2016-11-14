@@ -16,7 +16,8 @@
             regex = /([^&=]+)=([^&]*)/g, m;
         while(m = regex.exec(queryString)) {
             oauthParams[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-        }        
+        }
+        console.log('window.opener.setOauthParams', oauthParams)        
         window.opener.setOauthParams(oauthParams);
         console.log('CLOSE>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
         window.close();
