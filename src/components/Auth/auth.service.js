@@ -8,7 +8,7 @@ class AuthSvc {
         this.oauthParams;
         this.$window = $window;
 
-        this.$window.setOauthParams = function(oauthParamsPassed) {
+        this.$window.setOauthParams = (oauthParamsPassed) => {
         console.log('setOauthParams', oauthParamsPassed)        
         if(parseFloat(oauthParamsPassed['state']) === this.state) {
             this.oauthParams = oauthParamsPassed;                

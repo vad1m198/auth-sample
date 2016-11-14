@@ -36598,6 +36598,8 @@
 	
 	var AuthSvc = function () {
 	    function AuthSvc($window) {
+	        var _this = this;
+	
 	        _classCallCheck(this, AuthSvc);
 	
 	        this.clientId = 'VReDDtftrDyQyAdyJL';
@@ -36610,10 +36612,10 @@
 	
 	        this.$window.setOauthParams = function (oauthParamsPassed) {
 	            console.log('setOauthParams', oauthParamsPassed);
-	            if (parseFloat(oauthParamsPassed['state']) === this.state) {
-	                this.oauthParams = oauthParamsPassed;
+	            if (parseFloat(oauthParamsPassed['state']) === _this.state) {
+	                _this.oauthParams = oauthParamsPassed;
 	            } else {
-	                console.log(this.state, oauthParamsPassed['state']);
+	                console.log(_this.state, oauthParamsPassed['state']);
 	                throw 'setOauthParams parent error. State does not match';
 	            }
 	        };
