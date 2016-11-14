@@ -11,7 +11,7 @@ var config = {
   
     module: {
     loaders: [
-      { test: /\.js/, exclude: /node_modules/, loaders: ['babel'] },
+      { test: /\.js/, exclude: /node_modules/, loader: 'ng-annotate!babel' },
       { test: /\.html$/, loader: 'raw' }
     ]
   },  
