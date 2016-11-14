@@ -1,7 +1,5 @@
 class AuthSvc {
-	constructor($q, $timeout) {
-		this.$q = $q;
-		this.$timeout = $timeout;	
+	constructor() {
         this.clientId = 'VReDDtftrDyQyAdyJL';
         this.authorizationUrlBase = 'https://bitbucket.org/site/oauth2/authorize';
         this.redirectUri = 'https://static-site-serve.herokuapp.com/oauth2callbackBB.html';
@@ -9,6 +7,11 @@ class AuthSvc {
         this.state;
         this.oauthParams;	
 	}
+
+    getAccessToken() {
+        return this.oauthParams && this.oauthParams['access_token'] ? 
+                    encodeURIComponent(this.oauthParams['access_token']) : undefined;      
+    }
 	
 	startOauth(){
 	   //generate a pseudo-random number for state
@@ -37,5 +40,5 @@ class AuthSvc {
         }
     }
 }
-AuthSvc.$inject = ['$q','$timeout'];
+//AuthSvc.$inject = ['$q','$timeout'];
 export default AuthSvc;

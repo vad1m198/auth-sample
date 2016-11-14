@@ -1,6 +1,12 @@
 class AuthController {
-    constructor(AuthSvc) {
-        this.AuthSvc = AuthSvc;        
+    constructor(AuthSvc, $state) {
+        this.AuthSvc = AuthSvc;
+        this.$state = $state;
+        if( this.AuthSvc.getAccessToken() ) {
+            console.log(this.AuthSvc.getAccessToken())
+            console.log('state go >>>');
+            $state.go('home');
+        }        
     }
 
     startOauth() {
@@ -8,5 +14,5 @@ class AuthController {
     }
 }
 
-AuthController.$inject = ['AuthSvc'];
+AuthController.$inject = ['AuthSvc', '$state'];
 export default AuthController;
