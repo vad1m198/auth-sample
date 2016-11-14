@@ -36597,7 +36597,7 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var AuthSvc = function () {
-	    function AuthSvc() {
+	    function AuthSvc($window) {
 	        _classCallCheck(this, AuthSvc);
 	
 	        this.clientId = 'VReDDtftrDyQyAdyJL';
@@ -36606,6 +36606,17 @@
 	        this.scope = 'account';
 	        this.state;
 	        this.oauthParams;
+	        this.$window = $window;
+	
+	        this.$window.setOauthParams = function (oauthParamsPassed) {
+	            console.log('setOauthParams', oauthParamsPassed);
+	            if (parseFloat(oauthParamsPassed['state']) === this.state) {
+	                this.oauthParams = oauthParamsPassed;
+	            } else {
+	                console.log(this.state, oauthParamsPassed['state']);
+	                throw 'setOauthParams parent error. State does not match';
+	            }
+	        };
 	    }
 	
 	    _createClass(AuthSvc, [{
@@ -36623,29 +36634,29 @@
 	            var url = this.authorizationUrlBase;
 	            url += '?response_type=token' + '&redirect_uri=' + encodeURIComponent(this.redirectUri) + '&client_id=' + encodeURIComponent(this.clientId) + '&scope=' + encodeURIComponent(this.scope) + '&state=' + encodeURIComponent(this.state);
 	            try {
-	                var w = window.open(url, '_blank', 'width=500,height=400');
+	                var w = this.$window.open(url, '_blank', 'width=500,height=400');
 	            } catch (e) {
 	                console.log('error >>>>>>>>>>>>>', e);
 	            }
 	        }
-	    }, {
-	        key: 'setOauthParams',
-	        value: function setOauthParams(oauthParamsPassed) {
-	            console.log('setOauthParams', oauthParamsPassed);
-	            if (parseFloat(oauthParamsPassed['state']) === this.state) {
-	                this.oauthParams = oauthParamsPassed;
-	            } else {
-	                console.log(this.state, oauthParamsPassed['state']);
-	                throw 'setOauthParams parent error. State does not match';
+	        /*
+	            setOauthParams(oauthParamsPassed) {
+	                console.log('setOauthParams', oauthParamsPassed)        
+	                if(parseFloat(oauthParamsPassed['state']) === this.state) {
+	                    this.oauthParams = oauthParamsPassed;                
+	                } else {
+	                    console.log(this.state, oauthParamsPassed['state'])
+	                    throw 'setOauthParams parent error. State does not match'
+	                }
 	            }
-	        }
+	            */
+	
 	    }]);
 	
 	    return AuthSvc;
 	}();
-	//AuthSvc.$inject = ['$q','$timeout'];
 	
-	
+	AuthSvc.$inject = ['$window'];
 	exports.default = AuthSvc;
 
 /***/ },
