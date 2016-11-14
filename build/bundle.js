@@ -36631,6 +36631,7 @@
 	    }, {
 	        key: 'setOauthParams',
 	        value: function setOauthParams(oauthParamsPassed) {
+	            console.log('setOauthParams', oauthParamsPassed);
 	            if (parseFloat(oauthParamsPassed['state']) === this.state) {
 	                this.oauthParams = oauthParamsPassed;
 	            } else {
