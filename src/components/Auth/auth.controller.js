@@ -3,8 +3,7 @@ class AuthController {
         this.AuthSvc = AuthSvc;
         this.$state = $state;
         if( this.AuthSvc.getAccessToken() ) {
-            console.log(this.AuthSvc.getAccessToken())
-            console.log('state go >>>');
+            console.log(this.AuthSvc.getAccessToken());
             $state.go('home');
         }        
     }

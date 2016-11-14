@@ -36558,7 +36558,6 @@
 	        this.$state = $state;
 	        if (this.AuthSvc.getAccessToken()) {
 	            console.log(this.AuthSvc.getAccessToken());
-	            console.log('state go >>>');
 	            $state.go('home');
 	        }
 	    }
@@ -36597,7 +36596,7 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var AuthSvc = function () {
-	    function AuthSvc($window) {
+	    function AuthSvc($window, $state) {
 	        var _this = this;
 	
 	        _classCallCheck(this, AuthSvc);
@@ -36609,14 +36608,15 @@
 	        this.state;
 	        this.oauthParams;
 	        this.$window = $window;
+	        this.$state = $state;
 	
 	        this.$window.setOauthParams = function (oauthParamsPassed) {
-	            console.log('setOauthParams', oauthParamsPassed);
 	            if (parseFloat(oauthParamsPassed['state']) === _this.state) {
 	                _this.oauthParams = oauthParamsPassed;
+	                _this.$state.go('home');
 	            } else {
 	                console.log(_this.state, oauthParamsPassed['state']);
-	                throw 'setOauthParams parent error. State does not match';
+	                throw 'setOauthParams parent error. State did not match';
 	            }
 	        };
 	    }
@@ -36641,24 +36641,12 @@
 	                console.log('error >>>>>>>>>>>>>', e);
 	            }
 	        }
-	        /*
-	            setOauthParams(oauthParamsPassed) {
-	                console.log('setOauthParams', oauthParamsPassed)        
-	                if(parseFloat(oauthParamsPassed['state']) === this.state) {
-	                    this.oauthParams = oauthParamsPassed;                
-	                } else {
-	                    console.log(this.state, oauthParamsPassed['state'])
-	                    throw 'setOauthParams parent error. State does not match'
-	                }
-	            }
-	            */
-	
 	    }]);
 	
 	    return AuthSvc;
 	}();
 	
-	AuthSvc.$inject = ['$window'];
+	AuthSvc.$inject = ['$window', '$state'];
 	exports.default = AuthSvc;
 
 /***/ },

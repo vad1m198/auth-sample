@@ -1,5 +1,5 @@
 class AuthSvc {
-	constructor($window) {
+	constructor($window, $state) {
         this.clientId = 'VReDDtftrDyQyAdyJL';
         this.authorizationUrlBase = 'https://bitbucket.org/site/oauth2/authorize';
         this.redirectUri = 'https://static-site-serve.herokuapp.com/oauth2callbackBB.html';
@@ -7,16 +7,17 @@ class AuthSvc {
         this.state;
         this.oauthParams;
         this.$window = $window;
+        this.$state = $state
 
-        this.$window.setOauthParams = (oauthParamsPassed) => {
-        console.log('setOauthParams', oauthParamsPassed)        
-        if(parseFloat(oauthParamsPassed['state']) === this.state) {
-            this.oauthParams = oauthParamsPassed;                
-        } else {
-            console.log(this.state, oauthParamsPassed['state'])
-            throw 'setOauthParams parent error. State does not match'
+        this.$window.setOauthParams = (oauthParamsPassed) => {  
+            if(parseFloat(oauthParamsPassed['state']) === this.state) {
+                this.oauthParams = oauthParamsPassed;
+                this.$state.go('home');                
+            } else {
+                console.log(this.state, oauthParamsPassed['state'])
+                throw 'setOauthParams parent error. State did not match'
+            }
         }
-    }
 
 	}
 
@@ -42,17 +43,7 @@ class AuthSvc {
             console.log('error >>>>>>>>>>>>>', e)
         }
     }
-/*
-    setOauthParams(oauthParamsPassed) {
-        console.log('setOauthParams', oauthParamsPassed)        
-        if(parseFloat(oauthParamsPassed['state']) === this.state) {
-            this.oauthParams = oauthParamsPassed;                
-        } else {
-            console.log(this.state, oauthParamsPassed['state'])
-            throw 'setOauthParams parent error. State does not match'
-        }
-    }
-    */
+
 }
-AuthSvc.$inject = ['$window'];
+AuthSvc.$inject = ['$window', '$state'];
 export default AuthSvc;
