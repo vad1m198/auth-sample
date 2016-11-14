@@ -17,7 +17,7 @@
         while(m = regex.exec(queryString)) {
             oauthParams[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
         }        
-        window.opener.setOauthParamsBB(oauthParams);
+        window.opener.setOauthParams(oauthParams);
         window.close();
     </script>
      
