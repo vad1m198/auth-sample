@@ -1,0 +1,30 @@
+{
+  "name": "auth-sample",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --progress"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vad1m198/auth-sample.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vad1m198/auth-sample/issues"
+  },
+  "homepage": "https://github.com/vad1m198/auth-sample#readme",
+  "devDependencies": {
+    "babel-core": "^6.18.2",
+    "babel-loader": "^6.2.7",
+    "babel-preset-es2015": "^6.18.0",
+    "raw-loader": "^0.5.1",
+    "webpack": "^1.13.3"
+  },
+  "dependencies": {
+    "angular": "^1.5.8",
+    "angular-ui-router": "^0.3.2"
+  }
+}

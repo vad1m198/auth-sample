@@ -5,35 +5,9 @@
   <title></title>
   <meta charset="utf-8">
 </head>
-<body>
+<body ng-app="auth-sample">
+    {{1+1}}
+    <script src="build/bundle.js"></script>
 
-    <!--button onclick="startOauthGD();">Google</button>
-    <br/>
-    <button onclick="callApiGD();">Call Google Api</button-->
-    <br/>
-    <button onclick="startOauthBB();">BitBucket</button>    
-    <br/>
-    https://api.bitbucket.org/2.0/user
-    <br/>
-    <label>Api call URL</label>
-    <input type="text" id="url"/>
-    <button onclick="callbbApi();">Call BB Api</button>
-
-    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
-    <script src="bitbucket.auth.js"></script>
-    <script src="google.auth.js"></script>    
-    
-     <script type="text/javascript">
-
-        function showError(error) {            
-            console.error('error present >>>>>>', error)
-        }
-
-        function callbbApi(){
-            var url = document.getElementById('url').value;
-            callApiBB(url.trim());
-        }
-
-     </script>
 </body>
 </html>
