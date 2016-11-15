@@ -36722,8 +36722,14 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var HomeController = function HomeController() {
+	var HomeController = function HomeController(HomeSrv) {
 	    _classCallCheck(this, HomeController);
+	
+	    this.HomeSrv = HomeSrv;
+	    this.userName;
+	    HomeSrv.getCurrentUser().then(function (response) {
+	        return console.log("response", response);
+	    });
 	};
 	
 	exports.default = HomeController;
