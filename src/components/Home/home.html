@@ -2,8 +2,13 @@
 <h4>Hello: {{$ctrl.user.display_name}}</h4>
 <button ng-click="$ctrl.getUserTeams()">Get User Teams</button>
 <ul>
-    <li ng-repeat="(uuid, team) in $ctrl.userTeams" ng-click="$ctrl.getTeamRepositories(team.username)">{{team.display_name}}</li>
+    <li ng-repeat="(uuid, team) in $ctrl.userTeams" ng-click="$ctrl.getTeamRepositories(team.username)">
+        <h6>{{team.display_name}}</h6>
+        <ul>
+            <li ng-repeat="repo in $ctrl.repositories[team.uuid]"></li>
+        </ul>
+
+    </li>
 </ul>
 
-<button ng-click="$ctrl.getTeamRepositories()">Get Team Repositories</button>
 

@@ -3,6 +3,7 @@ class HomeController {
         this.HomeSvc = HomeSvc;
         this.user;
         this.userTeams = {};
+        this.repositories = {};
         if( !AuthSvc.getAccessToken() ) {
             $state.go('login');
         } else {
@@ -32,10 +33,15 @@ class HomeController {
     }
 
     getTeamRepositories(teamUserName) {
-        console.log("getTeamRepositories controller >>>>>>>>>> ", teamUserName);
-        //this.userTeams[Object.keys(this.userTeams)[0]].username
         this.HomeSvc.getTeamRepositories(teamUserName)
-                .then(response => console.log("getTeamRepositories", response)); 
+                .then(response => {
+                    console.log("getTeamRepositories", response);
+                    if(response.values.length > 0) {
+                        this.repositories[response.values[0].owner.uuid] = values
+                    }
+                    console.log(" this.repositories",  this.repositories)
+                });
+        
     }
 
 }
