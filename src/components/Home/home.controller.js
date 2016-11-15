@@ -32,6 +32,7 @@ class HomeController {
     }
 
     getTeamRepositories() {
+        console.log('Object.keys(this.userTeams)[0]',Object.keys(this.userTeams)[0]);
         this.HomeSvc.getTeamRepositories(this.userTeams[Object.keys(this.userTeams)[0]])
                 .then(response => console.log("getTeamRepositories", response)); 
     }
