@@ -36718,7 +36718,7 @@
 /* 12 */
 /***/ function(module, exports) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -36726,17 +36726,21 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var HomeController = function HomeController(HomeSvc) {
+	var HomeController = function HomeController(HomeSvc, AuthSvc, $state) {
 	    _classCallCheck(this, HomeController);
 	
 	    this.HomeSvc = HomeSvc;
 	    this.userName;
+	    if (AuthSvc.getAccessToken()) {
+	        console.log(AuthSvc.getAccessToken());
+	        $state.go('login');
+	    }
 	    HomeSvc.getCurrentUser().then(function (response) {
 	        return console.log("response", response);
 	    });
 	};
 	
-	HomeController.$inject = ['HomeSvc'];
+	HomeController.$inject = ['HomeSvc', 'AuthSvc', '$state'];
 	exports.default = HomeController;
 
 /***/ },
