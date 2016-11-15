@@ -31,6 +31,16 @@ class HomeSvc {
 		return this.$http.get(this.apiUrl + 'repositories/'+ teamUsername + "?access_token=" + this.access_token)
             .then(response => response.data);	
     }
+
+    getRepoCommits(ownerName, repoSlug){
+        //https://api.bitbucket.org/2.0/repositories/project_team198/test_project_repo/commits
+        return this.$http.get(this.apiUrl + 'repositories/'+ ownerName + '/' + repoSlug + '/commits' + "?access_token=" + this.access_token)
+            .then(response => response.data);
+    }
+
+    
+
+
 }
 HomeSvc.$inject = ['$http', 'AuthSvc'];
 export default HomeSvc;

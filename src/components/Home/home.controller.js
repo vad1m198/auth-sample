@@ -44,6 +44,11 @@ class HomeController {
         
     }
 
+    getRepoCommits(ownerName, repoSlug) {
+        console.log("getRepoCommits", ownerName, repoSlug)
+        this.HomeSvc.getRepoCommits(ownerName, repoSlug).then(response => console.log("getRepoCommits response", response))
+    }
+
 }
 
 HomeController.$inject = ['HomeSvc','AuthSvc', '$state'];

@@ -36786,6 +36786,14 @@
 	                console.log(" this.repositories", _this3.repositories);
 	            });
 	        }
+	    }, {
+	        key: "getRepoCommits",
+	        value: function getRepoCommits(ownerName, repoSlug) {
+	            console.log("getRepoCommits", ownerName, repoSlug);
+	            this.HomeSvc.getRepoCommits(ownerName, repoSlug).then(function (response) {
+	                return console.log("getRepoCommits response", response);
+	            });
+	        }
 	    }]);
 	
 	    return HomeController;
@@ -36798,7 +36806,7 @@
 /* 13 */
 /***/ function(module, exports) {
 
-	module.exports = "<h3>This is Home Component</h3>\r\n<h4>Hello: {{$ctrl.user.display_name}}</h4>\r\n<button ng-click=\"$ctrl.getUserTeams()\">Get User Teams</button>\r\n<ul>\r\n    <li ng-repeat=\"(uuid, team) in $ctrl.userTeams\" ng-click=\"$ctrl.getTeamRepositories(team.username)\">\r\n        <h5>{{team.display_name}}</h5>\r\n        <ul>\r\n            <li ng-repeat=\"repo in $ctrl.repositories[team.uuid]\">{{repo.slug}}</li>\r\n        </ul>\r\n\r\n    </li>\r\n</ul>\r\n\r\n\r\n"
+	module.exports = "<h3>This is Home Component</h3>\r\n<h4>Hello: {{$ctrl.user.display_name}}</h4>\r\n<button ng-click=\"$ctrl.getUserTeams()\">Get User Teams</button>\r\n<ul>\r\n    <li ng-repeat=\"(uuid, team) in $ctrl.userTeams\" ng-click=\"$ctrl.getTeamRepositories(team.username)\">\r\n        <h5>{{team.display_name}}</h5>\r\n        <ul>\r\n            <li ng-repeat=\"repo in $ctrl.repositories[team.uuid]\" ng-click=\"$ctrl.getRepoCommits(repo.owner.username, repo.slug)\">\r\n                <h6>{{repo.slug}}</h6>                   \r\n            </li>\r\n        </ul>\r\n\r\n    </li>\r\n</ul>\r\n\r\n\r\n"
 
 /***/ },
 /* 14 */
@@ -36857,6 +36865,14 @@
 	        key: 'getTeamRepositories',
 	        value: function getTeamRepositories(teamUsername) {
 	            return this.$http.get(this.apiUrl + 'repositories/' + teamUsername + "?access_token=" + this.access_token).then(function (response) {
+	                return response.data;
+	            });
+	        }
+	    }, {
+	        key: 'getRepoCommits',
+	        value: function getRepoCommits(ownerName, repoSlug) {
+	            //https://api.bitbucket.org/2.0/repositories/project_team198/test_project_repo/commits
+	            return this.$http.get(this.apiUrl + 'repositories/' + ownerName + '/' + repoSlug + '/commits' + "?access_token=" + this.access_token).then(function (response) {
 	                return response.data;
 	            });
 	        }

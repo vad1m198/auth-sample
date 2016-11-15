@@ -5,7 +5,9 @@
     <li ng-repeat="(uuid, team) in $ctrl.userTeams" ng-click="$ctrl.getTeamRepositories(team.username)">
         <h5>{{team.display_name}}</h5>
         <ul>
-            <li ng-repeat="repo in $ctrl.repositories[team.uuid]">{{repo.slug}}</li>
+            <li ng-repeat="repo in $ctrl.repositories[team.uuid]" ng-click="$ctrl.getRepoCommits(repo.owner.username, repo.slug)">
+                <h6>{{repo.slug}}</h6>                   
+            </li>
         </ul>
 
     </li>
