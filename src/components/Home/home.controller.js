@@ -4,6 +4,7 @@ class HomeController {
         this.user;
         this.userTeams = {};
         this.repositories = {};
+        this.commits = {};
         if( !AuthSvc.getAccessToken() ) {
             $state.go('login');
         } else {
@@ -44,9 +45,15 @@ class HomeController {
         
     }
 
-    getRepoCommits(ownerName, repoSlug) {
-        console.log("getRepoCommits", ownerName, repoSlug)
-        this.HomeSvc.getRepoCommits(ownerName, repoSlug).then(response => console.log("getRepoCommits response", response))
+    getRepoCommits(ownerName, repoSlug) {        
+        this.HomeSvc.getRepoCommits(ownerName, repoSlug)
+            .then(response => {
+                console.log("getRepoCommits response", response);
+                if(response.values.length > 0) {
+                        this.commits[response.values[0].repository.uuid] = response.values
+                    }
+                    console.log("this.commits",   this.commits)
+            })
     }
 
 }

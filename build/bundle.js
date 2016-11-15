@@ -36737,6 +36737,7 @@
 	        this.user;
 	        this.userTeams = {};
 	        this.repositories = {};
+	        this.commits = {};
 	        if (!AuthSvc.getAccessToken()) {
 	            $state.go('login');
 	        } else {
@@ -36789,9 +36790,14 @@
 	    }, {
 	        key: "getRepoCommits",
 	        value: function getRepoCommits(ownerName, repoSlug) {
-	            console.log("getRepoCommits", ownerName, repoSlug);
+	            var _this4 = this;
+	
 	            this.HomeSvc.getRepoCommits(ownerName, repoSlug).then(function (response) {
-	                return console.log("getRepoCommits response", response);
+	                console.log("getRepoCommits response", response);
+	                if (response.values.length > 0) {
+	                    _this4.commits[response.values[0].repository.uuid] = response.values;
+	                }
+	                console.log("this.commits", _this4.commits);
 	            });
 	        }
 	    }]);
@@ -36806,7 +36812,7 @@
 /* 13 */
 /***/ function(module, exports) {
 
-	module.exports = "<h3>This is Home Component</h3>\r\n<h4>Hello: {{$ctrl.user.display_name}}</h4>\r\n<button ng-click=\"$ctrl.getUserTeams()\">Get User Teams</button>\r\n<ul>\r\n    <li ng-repeat=\"(uuid, team) in $ctrl.userTeams\" ng-click=\"$ctrl.getTeamRepositories(team.username)\">\r\n        <h5>{{team.display_name}}</h5>\r\n        <ul>\r\n            <li ng-repeat=\"repo in $ctrl.repositories[team.uuid]\" ng-click=\"$ctrl.getRepoCommits(repo.owner.username, repo.slug)\">\r\n                <h6>{{repo.slug}}</h6>                   \r\n            </li>\r\n        </ul>\r\n\r\n    </li>\r\n</ul>\r\n\r\n\r\n"
+	module.exports = "<h3>This is Home Component</h3>\r\n<h4>Hello: {{$ctrl.user.display_name}}</h4>\r\n<button ng-click=\"$ctrl.getUserTeams()\">Get User Teams</button>\r\n<ul>\r\n    <li ng-repeat=\"(uuid, team) in $ctrl.userTeams\" ng-click=\"$ctrl.getTeamRepositories(team.username)\">\r\n        <h5>{{team.display_name}}</h5>\r\n        <ul>\r\n            <li ng-repeat=\"repo in $ctrl.repositories[team.uuid]\" ng-click=\"$ctrl.getRepoCommits(repo.owner.username, repo.slug)\">\r\n                <h6>{{repo.slug}}</h6>   \r\n                <ul>\r\n                    <li ng-repeat=\"commit in $ctrl.commits[repo.uuid]\">{{commit.hash}}</li>\r\n                </ul>                \r\n            </li>\r\n        </ul>\r\n\r\n    </li>\r\n</ul>\r\n\r\n\r\n"
 
 /***/ },
 /* 14 */
