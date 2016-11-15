@@ -36578,7 +36578,7 @@
 /* 8 */
 /***/ function(module, exports) {
 
-	module.exports = "<h3>Please authicate</h3> \r\n<button ng-click=\"$ctrl.startOauth()\">Login with bitbucket</button>"
+	module.exports = "<h3>Please authicate!!!</h3> \r\n<button ng-click=\"$ctrl.startOauth()\">Login with bitbucket</button>"
 
 /***/ },
 /* 9 */

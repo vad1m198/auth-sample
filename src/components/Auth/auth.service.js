@@ -2,7 +2,8 @@ class AuthSvc {
 	constructor($window, $state) {
         this.clientId = 'VReDDtftrDyQyAdyJL';
         this.authorizationUrlBase = 'https://bitbucket.org/site/oauth2/authorize';
-        this.redirectUri = 'https://static-site-serve.herokuapp.com/oauth2callbackBB.html';
+        //this.redirectUri = 'https://static-site-serve.herokuapp.com/oauth2callbackBB.html';
+        this.redirectUri = 'http://localhost:8080/oauth2callbackBB.html';
         this.scope = 'account';
         this.state;
         this.oauthParams;

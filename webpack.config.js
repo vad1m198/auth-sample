@@ -16,5 +16,10 @@ var config = {
       { test: /\.css$/, loader: 'style!css' }
     ]
   },  
+  devServer: {
+     publicPath: "/build",
+      headers: { "X-Custom-Header": "yes" },
+      stats: { colors: true }
+  }
 }
 module.exports = config;
