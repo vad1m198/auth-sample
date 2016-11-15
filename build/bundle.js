@@ -36748,9 +36748,9 @@
 	    }
 	
 	    _createClass(HomeController, [{
-	        key: "getUserTeams",
-	        value: function getUserTeams() {
-	            this.HomeSvc.getUserTeams(this.user.uuid).then(function (response) {
+	        key: "getUserMemberTeams",
+	        value: function getUserMemberTeams() {
+	            this.HomeSvc.getUserMemberTeams(this.user.uuid).then(function (response) {
 	                return console.log("getUserTeams", response);
 	            });
 	        }
@@ -36801,9 +36801,9 @@
 	            });
 	        }
 	    }, {
-	        key: 'getUserTeams',
-	        value: function getUserTeams(uuid) {
-	            return this.$http.get(this.apiUrl + 'teams/' + uuid + '?' + "access_token=" + this.access_token).then(function (response) {
+	        key: 'getUserMemberTeams',
+	        value: function getUserMemberTeams(uuid) {
+	            return this.$http.get(this.apiUrl + 'teams' + uuid + '?role=member' + "&access_token=" + this.access_token).then(function (response) {
 	                return response.data;
 	            });
 	        }

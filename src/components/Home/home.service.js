@@ -12,8 +12,8 @@ class HomeSvc {
             .then(response => response.data);	
     }
 
-    getUserTeams(uuid) {        
-		return this.$http.get(this.apiUrl + 'teams/' + uuid + '?' + "access_token=" + this.access_token)
+    getUserMemberTeams(uuid) {        
+		return this.$http.get(this.apiUrl + 'teams' + uuid + '?role=member' + "&access_token=" + this.access_token)
             .then(response => response.data);	
     }
 }

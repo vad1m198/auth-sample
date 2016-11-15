@@ -14,8 +14,8 @@ class HomeController {
         }
     }
 
-    getUserTeams() {
-        this.HomeSvc.getUserTeams(this.user.uuid).then(response => console.log("getUserTeams", response));
+    getUserMemberTeams() {
+        this.HomeSvc.getUserMemberTeams(this.user.uuid).then(response => console.log("getUserTeams", response));
     }
 
 }
