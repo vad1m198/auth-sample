@@ -8,7 +8,12 @@ class HomeSvc {
 
     getCurrentUser() {
         if( !this.access_token ) this.access_token = this.AuthSvc.getAccessToken();        
-		return this.$http.get(this.apiUrl + 'user' + '?' + "access_token=" +this.access_token)
+		return this.$http.get(this.apiUrl + 'user' + '?' + "access_token=" + this.access_token)
+            .then(response => response.data);	
+    }
+
+    getUserTeams(uuid) {        
+		return this.$http.get(this.apiUrl + 'teams/' + uuid + '?' + "access_token=" + this.access_token)
             .then(response => response.data);	
     }
 }

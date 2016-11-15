@@ -36717,32 +36717,47 @@
 /* 12 */
 /***/ function(module, exports) {
 
-	'use strict';
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var HomeController = function HomeController(HomeSvc, AuthSvc, $state) {
-	    var _this = this;
+	var HomeController = function () {
+	    function HomeController(HomeSvc, AuthSvc, $state) {
+	        var _this = this;
 	
-	    _classCallCheck(this, HomeController);
+	        _classCallCheck(this, HomeController);
 	
-	    this.HomeSvc = HomeSvc;
-	    this.user;
-	    if (!AuthSvc.getAccessToken()) {
-	        $state.go('login');
-	    } else {
-	        HomeSvc.getCurrentUser().then(function (response) {
-	            console.log("response", response);
-	            _this.user = response;
-	        }).catch(function (error) {
-	            return console.erorr(error);
-	        });
+	        this.HomeSvc = HomeSvc;
+	        this.user;
+	        if (!AuthSvc.getAccessToken()) {
+	            $state.go('login');
+	        } else {
+	            HomeSvc.getCurrentUser().then(function (response) {
+	                console.log("currentUser ", response);
+	                _this.user = response;
+	            }).catch(function (error) {
+	                return console.erorr(error);
+	            });
+	        }
 	    }
-	};
+	
+	    _createClass(HomeController, [{
+	        key: "getUserTeams",
+	        value: function getUserTeams() {
+	            HomeSvc.getUserTeams(this.user.uuid).then(function (response) {
+	                return console.log("getUserTeams", response);
+	            });
+	        }
+	    }]);
+	
+	    return HomeController;
+	}();
 	
 	HomeController.$inject = ['HomeSvc', 'AuthSvc', '$state'];
 	exports.default = HomeController;
@@ -36751,7 +36766,7 @@
 /* 13 */
 /***/ function(module, exports) {
 
-	module.exports = "<h3>This is Home Component</h3>\r\n<h4>Hello: {{$ctrl.user.display_name}}</h4>\r\n"
+	module.exports = "<h3>This is Home Component</h3>\r\n<h4>Hello: {{$ctrl.user.display_name}}</h4>\r\n<button ng-click=\"$strl.getUserTeams()\">Get User Teams</button>\r\n"
 
 /***/ },
 /* 14 */
@@ -36782,6 +36797,13 @@
 	        value: function getCurrentUser() {
 	            if (!this.access_token) this.access_token = this.AuthSvc.getAccessToken();
 	            return this.$http.get(this.apiUrl + 'user' + '?' + "access_token=" + this.access_token).then(function (response) {
+	                return response.data;
+	            });
+	        }
+	    }, {
+	        key: 'getUserTeams',
+	        value: function getUserTeams(uuid) {
+	            return this.$http.get(this.apiUrl + 'teams/' + uuid + '?' + "access_token=" + this.access_token).then(function (response) {
 	                return response.data;
 	            });
 	        }
