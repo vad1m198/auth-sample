@@ -31,9 +31,10 @@ class HomeController {
         });
     }
 
-    getTeamRepositories() {
-        console.log('Object.keys(this.userTeams)[0]',Object.keys(this.userTeams)[0], this.userTeams[Object.keys(this.userTeams)[0]]);
-        this.HomeSvc.getTeamRepositories(this.userTeams[Object.keys(this.userTeams)[0]].username)
+    getTeamRepositories(teamUserName) {
+        console.log("getTeamRepositories controller >>>>>>>>>> ", teamUserName);
+        //this.userTeams[Object.keys(this.userTeams)[0]].username
+        this.HomeSvc.getTeamRepositories(teamUserName)
                 .then(response => console.log("getTeamRepositories", response)); 
     }
 
