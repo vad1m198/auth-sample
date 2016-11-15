@@ -2,13 +2,13 @@
 <h4>Hello: {{$ctrl.user.display_name}}</h4>
 <button ng-click="$ctrl.getUserTeams()">Get User Teams</button>
 <ul>
-    <li ng-repeat="(uuid, team) in $ctrl.userTeams" ng-click="$ctrl.getTeamRepositories(team.username)">
+    <li ng-repeat="(uuid, team) in $ctrl.userTeams" ng-click="$ctrl.getTeamRepositories(team.username); $event.stopPropagation();">
         <h5>{{team.display_name}}</h5>
         <ul>
-            <li ng-repeat="repo in $ctrl.repositories[team.uuid]" ng-click="$ctrl.getRepoCommits(repo.owner.username, repo.slug)">
+            <li ng-repeat="repo in $ctrl.repositories[team.uuid]" ng-click="$ctrl.getRepoCommits(repo.owner.username, repo.slug); $event.stopPropagation();">
                 <h6>{{repo.slug}}</h6>   
                 <ul>
-                    <li ng-repeat="commit in $ctrl.commits[repo.uuid]">{{commit.hash}}</li>
+                    <li ng-repeat="commit in $ctrl.commits[repo.uuid]" ng-click="$event.stopPropagation();">{{commit.hash}}</li>
                 </ul>                
             </li>
         </ul>
