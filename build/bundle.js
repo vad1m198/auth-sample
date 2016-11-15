@@ -36735,6 +36735,7 @@
 	
 	        this.HomeSvc = HomeSvc;
 	        this.user;
+	        this.userTeams = {};
 	        if (!AuthSvc.getAccessToken()) {
 	            $state.go('login');
 	        } else {
@@ -36750,14 +36751,19 @@
 	    _createClass(HomeController, [{
 	        key: "getUserTeams",
 	        value: function getUserTeams() {
+	            var _this2 = this;
+	
 	            this.HomeSvc.getUserMemberTeams().then(function (response) {
-	                return console.log("getUserMemberTeams", response);
+	                console.log("getUserMemberTeams", response);
+	                _this2.userTeams[response.uuid] = response;
 	            });
 	            this.HomeSvc.getUserAdminTeams().then(function (response) {
-	                return console.log("getUserAdminTeams", response);
+	                console.log("getUserAdminTeams", response);
+	                _this2.userTeams[response.uuid] = response;
 	            });
 	            this.HomeSvc.getUserContributorTeams().then(function (response) {
-	                return console.log("getUserContributorTeams", response);
+	                console.log("getUserContributorTeams", response);
+	                _this2.userTeams[response.uuid] = response;
 	            });
 	        }
 	    }]);
@@ -36772,7 +36778,7 @@
 /* 13 */
 /***/ function(module, exports) {
 
-	module.exports = "<h3>This is Home Component</h3>\r\n<h4>Hello: {{$ctrl.user.display_name}}</h4>\r\n<button ng-click=\"$ctrl.getUserTeams()\">Get User Teams</button>\r\n"
+	module.exports = "<h3>This is Home Component</h3>\r\n<h4>Hello: {{$ctrl.user.display_name}}</h4>\r\n<button ng-click=\"$ctrl.getUserTeams()\">Get User Teams</button>\r\n<ul>\r\n    <li ng-repeat=\"(uuid, team) in $ctrl.userTeams\">{{team.display_name}}</li>\r\n</ul>\r\n"
 
 /***/ },
 /* 14 */

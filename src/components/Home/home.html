@@ -1,3 +1,6 @@
 <h3>This is Home Component</h3>
 <h4>Hello: {{$ctrl.user.display_name}}</h4>
 <button ng-click="$ctrl.getUserTeams()">Get User Teams</button>
+<ul>
+    <li ng-repeat="(uuid, team) in $ctrl.userTeams">{{team.display_name}}</li>
+</ul>

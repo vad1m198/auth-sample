@@ -2,6 +2,7 @@ class HomeController {
     constructor(HomeSvc, AuthSvc, $state) {
         this.HomeSvc = HomeSvc;
         this.user;
+        this.userTeams = {};
         if( !AuthSvc.getAccessToken() ) {
             $state.go('login');
         } else {
@@ -15,9 +16,18 @@ class HomeController {
     }
 
     getUserTeams() {
-        this.HomeSvc.getUserMemberTeams().then(response => console.log("getUserMemberTeams", response));
-        this.HomeSvc.getUserAdminTeams().then(response => console.log("getUserAdminTeams", response));
-        this.HomeSvc.getUserContributorTeams().then(response => console.log("getUserContributorTeams", response));
+        this.HomeSvc.getUserMemberTeams().then(response => {
+            console.log("getUserMemberTeams", response);
+            this.userTeams[response.uuid] = response;
+        });
+        this.HomeSvc.getUserAdminTeams().then(response => {
+            console.log("getUserAdminTeams", response)
+            this.userTeams[response.uuid] = response;
+        });
+        this.HomeSvc.getUserContributorTeams().then(response => {
+            console.log("getUserContributorTeams", response)
+            this.userTeams[response.uuid] = response;
+        });
     }
 
 }
