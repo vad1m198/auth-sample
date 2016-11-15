@@ -69,7 +69,7 @@
 	
 	var _homeModule2 = _interopRequireDefault(_homeModule);
 	
-	__webpack_require__(14);
+	__webpack_require__(15);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -36671,6 +36671,10 @@
 	
 	var _homeComponent2 = _interopRequireDefault(_homeComponent);
 	
+	var _homeService = __webpack_require__(14);
+	
+	var _homeService2 = _interopRequireDefault(_homeService);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var homeModule = _angular2.default.module('home-module', [_angularUiRouter2.default]).config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider) {
@@ -36680,7 +36684,7 @@
 	        url: '/home',
 	        template: '<home></home>'
 	    });
-	}]).component('home', _homeComponent2.default).name;
+	}]).component('home', _homeComponent2.default).service('HomeSrv', _homeService2.default).name;
 	
 	exports.default = homeModule;
 
@@ -36732,6 +36736,7 @@
 	    });
 	};
 	
+	HomeController.$inject = ['HomeSrv'];
 	exports.default = HomeController;
 
 /***/ },
@@ -36742,15 +36747,51 @@
 
 /***/ },
 /* 14 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	       value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var HomeSrv = function () {
+	       function HomeSrv($http, AuthSrv) {
+	              _classCallCheck(this, HomeSrv);
+	
+	              this.apiUrl = 'https://api.bitbucket.org/2.0/';
+	              this.$http = $http;
+	              this.access_token = AuthSrv.getgetAccessToken();
+	       }
+	
+	       _createClass(HomeSrv, [{
+	              key: 'getCurrentUser',
+	              value: function getCurrentUser() {
+	                     return this.$http.get(apiUrl + 'user' + '?' + this.access_token);
+	              }
+	       }]);
+	
+	       return HomeSrv;
+	}();
+	
+	HomeSrv.$inject = ['$http', 'AuthSrv'];
+	exports.default = HomeSrv;
+
+/***/ },
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(15);
+	var content = __webpack_require__(16);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(17)(content, {});
+	var update = __webpack_require__(18)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -36767,10 +36808,10 @@
 	}
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(16)();
+	exports = module.exports = __webpack_require__(17)();
 	// imports
 	
 	
@@ -36781,7 +36822,7 @@
 
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports) {
 
 	/*
@@ -36837,7 +36878,7 @@
 
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*

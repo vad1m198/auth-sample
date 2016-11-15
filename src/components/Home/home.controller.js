@@ -7,5 +7,5 @@ class HomeController {
     }
 }
 
-
+HomeController.$inject = ['HomeSrv'];
 export default HomeController;
