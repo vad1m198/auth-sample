@@ -5,6 +5,7 @@ class HomeController {
         this.userTeams = {};
         this.repositories = {};
         this.commits = {};
+        this.commitDetailsToShow = [];
         if( !AuthSvc.getAccessToken() ) {
             $state.go('login');
         } else {
@@ -54,6 +55,18 @@ class HomeController {
                     }
                     console.log("this.commits",   this.commits)
             })
+    }
+
+    toggleCommitDetails(commitHash) {
+         if(this.commitDetailsToShow.filter(i => i == commitHash).length > 0) {
+             this.commitDetailsToShow = this.commitDetailsToShow.filter(i => i != commitHash);
+         } else {
+             this.commitDetailsToShow.push(commitHash);
+        }         
+    }
+
+    isCommitDetailsVisible(commitHash) {
+        return this.commitDetailsToShow.filter(i => i == commitHash).length > 0;
     }
 
 }

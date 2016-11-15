@@ -36738,6 +36738,7 @@
 	        this.userTeams = {};
 	        this.repositories = {};
 	        this.commits = {};
+	        this.commitDetailsToShow = [];
 	        if (!AuthSvc.getAccessToken()) {
 	            $state.go('login');
 	        } else {
@@ -36800,6 +36801,26 @@
 	                console.log("this.commits", _this4.commits);
 	            });
 	        }
+	    }, {
+	        key: "toggleCommitDetails",
+	        value: function toggleCommitDetails(commitHash) {
+	            if (this.commitDetailsToShow.filter(function (i) {
+	                return i == commitHash;
+	            }).length > 0) {
+	                this.commitDetailsToShow = this.commitDetailsToShow.filter(function (i) {
+	                    return i != commitHash;
+	                });
+	            } else {
+	                this.commitDetailsToShow.push(commitHash);
+	            }
+	        }
+	    }, {
+	        key: "isCommitDetailsVisible",
+	        value: function isCommitDetailsVisible(commitHash) {
+	            return this.commitDetailsToShow.filter(function (i) {
+	                return i == commitHash;
+	            }).length > 0;
+	        }
 	    }]);
 	
 	    return HomeController;
@@ -36812,7 +36833,7 @@
 /* 13 */
 /***/ function(module, exports) {
 
-	module.exports = "<h3>This is Home Component</h3>\r\n<h4>Hello: {{$ctrl.user.display_name}}</h4>\r\n<button ng-click=\"$ctrl.getUserTeams()\">Get User Teams</button>\r\n<ul>\r\n    <li ng-repeat=\"(uuid, team) in $ctrl.userTeams\" ng-click=\"$ctrl.getTeamRepositories(team.username); $event.stopPropagation();\">\r\n        <h5>{{team.display_name}}</h5>\r\n        <ul>\r\n            <li ng-repeat=\"repo in $ctrl.repositories[team.uuid]\" ng-click=\"$ctrl.getRepoCommits(repo.owner.username, repo.slug); $event.stopPropagation();\">\r\n                <h6>{{repo.slug}}</h6>   \r\n                <ul>\r\n                    <li ng-repeat=\"commit in $ctrl.commits[repo.uuid]\" ng-click=\"$event.stopPropagation();\">{{commit.hash}}</li>\r\n                </ul>                \r\n            </li>\r\n        </ul>\r\n\r\n    </li>\r\n</ul>\r\n\r\n\r\n"
+	module.exports = "<h2>This is Home Component</h2>\r\n<h3>Hello: {{$ctrl.user.display_name}}</h3>\r\n<button ng-click=\"$ctrl.getUserTeams()\">Get User Teams</button>\r\n<ul>\r\n    <li ng-repeat=\"(uuid, team) in $ctrl.userTeams\">\r\n        <h4  ng-click=\"$ctrl.getTeamRepositories(team.username); $event.stopPropagation();\">{{team.display_name}}</h4>\r\n        <ul>\r\n            <li ng-repeat=\"repo in $ctrl.repositories[team.uuid]\">\r\n                <h5  ng-click=\"$ctrl.getRepoCommits(repo.owner.username, repo.slug); $event.stopPropagation();\">{{repo.slug}}</h5>   \r\n                <ul>\r\n                    <li ng-repeat=\"commit in $ctrl.commits[repo.uuid]\">\r\n                        <h6  ng-click=\"$ctrl.toggleCommitDetails(commit.hash);   $event.stopPropagation();\">{{commit.hash}}</h6>\r\n                            <ul ng-if=\"$ctrl.isCommitDetailsVisible(commit.hash)\">\r\n                                <li>{{commit.date}}</li>\r\n                                <li>{{commit.author.raw}}</li>\r\n                                <li>{{commit.message}}</li>\r\n                            </ul>\r\n                    </li>\r\n                </ul>                \r\n            </li>\r\n        </ul>\r\n\r\n    </li>\r\n</ul>\r\n\r\n\r\n"
 
 /***/ },
 /* 14 */
