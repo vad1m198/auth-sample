@@ -4,3 +4,6 @@
 <ul>
     <li ng-repeat="(uuid, team) in $ctrl.userTeams">{{team.display_name}}</li>
 </ul>
+
+<button ng-click="$ctrl.getTeamRepositories()">Get Team Repositories</button>
+
