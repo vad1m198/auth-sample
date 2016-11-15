@@ -36557,7 +36557,6 @@
 	        this.AuthSvc = AuthSvc;
 	        this.$state = $state;
 	        if (AuthSvc.getAccessToken()) {
-	            console.log(AuthSvc.getAccessToken());
 	            $state.go('home');
 	        }
 	    }
@@ -36727,16 +36726,18 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var HomeController = function HomeController(HomeSvc, AuthSvc, $state) {
+	    var _this = this;
+	
 	    _classCallCheck(this, HomeController);
 	
 	    this.HomeSvc = HomeSvc;
-	    this.userName;
+	    this.user;
 	    if (!AuthSvc.getAccessToken()) {
-	        console.log(AuthSvc.getAccessToken());
 	        $state.go('login');
 	    } else {
 	        HomeSvc.getCurrentUser().then(function (response) {
-	            return console.log("response", response);
+	            console.log("response", response);
+	            _this.user = response;
 	        }).catch(function (error) {
 	            return console.erorr(error);
 	        });
@@ -36750,7 +36751,7 @@
 /* 13 */
 /***/ function(module, exports) {
 
-	module.exports = "<h3>This is Home Component</h3>\r\n"
+	module.exports = "<h3>This is Home Component</h3>\r\n<h4>Hello: {{$ctrl.user.display_name}}</h4>\r\n"
 
 /***/ },
 /* 14 */
@@ -36780,8 +36781,9 @@
 	        key: 'getCurrentUser',
 	        value: function getCurrentUser() {
 	            if (!this.access_token) this.access_token = this.AuthSvc.getAccessToken();
-	            console.log('getCurrentUser access_token >>>>>>>>>>>>>>>', this.access_token);
-	            return this.$http.get(this.apiUrl + 'user' + '?' + "access_token=" + this.access_token);
+	            return this.$http.get(this.apiUrl + 'user' + '?' + "access_token=" + this.access_token).then(function (response) {
+	                return response.data;
+	            });
 	        }
 	    }]);
 	

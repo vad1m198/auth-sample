@@ -1,13 +1,15 @@
 class HomeController {
     constructor(HomeSvc, AuthSvc, $state) {
         this.HomeSvc = HomeSvc;
-        this.userName;
+        this.user;
         if( !AuthSvc.getAccessToken() ) {
-            console.log(AuthSvc.getAccessToken());
             $state.go('login');
         } else {
             HomeSvc.getCurrentUser()
-            .then(response => console.log("response", response))
+            .then(response => {
+                console.log("response", response);
+                this.user = response;
+            })
             .catch(error => console.erorr(error));
         }
     }
