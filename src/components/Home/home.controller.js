@@ -1,11 +1,11 @@
 class HomeController {
-    constructor(HomeSrv) {
-        this.HomeSrv = HomeSrv;
+    constructor(HomeSvc) {
+        this.HomeSvc = HomeSvc;
         this.userName;
-        HomeSrv.getCurrentUser()
+        HomeSvc.getCurrentUser()
             .then(response => console.log("response", response));
     }
 }
 
-HomeController.$inject = ['HomeSrv'];
+HomeController.$inject = ['HomeSvc'];
 export default HomeController;

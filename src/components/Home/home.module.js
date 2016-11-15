@@ -13,7 +13,7 @@ let homeModule = angular.module('home-module', [uiRouter])
             });
         })
     .component('home', HomeComponent)
-    .service('HomeSrv', HomeSrv)
+    .service('HomeSvc', HomeSrv)
     .name;
 
     export default homeModule;

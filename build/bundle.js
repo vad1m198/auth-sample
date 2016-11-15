@@ -36684,7 +36684,7 @@
 	        url: '/home',
 	        template: '<home></home>'
 	    });
-	}]).component('home', _homeComponent2.default).service('HomeSrv', _homeService2.default).name;
+	}]).component('home', _homeComponent2.default).service('HomeSvc', _homeService2.default).name;
 	
 	exports.default = homeModule;
 
@@ -36726,17 +36726,17 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var HomeController = function HomeController(HomeSrv) {
+	var HomeController = function HomeController(HomeSvc) {
 	    _classCallCheck(this, HomeController);
 	
-	    this.HomeSrv = HomeSrv;
+	    this.HomeSvc = HomeSvc;
 	    this.userName;
-	    HomeSrv.getCurrentUser().then(function (response) {
+	    HomeSvc.getCurrentUser().then(function (response) {
 	        return console.log("response", response);
 	    });
 	};
 	
-	HomeController.$inject = ['HomeSrv'];
+	HomeController.$inject = ['HomeSvc'];
 	exports.default = HomeController;
 
 /***/ },
@@ -36759,27 +36759,27 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var HomeSrv = function () {
-	       function HomeSrv($http, AuthSrv) {
-	              _classCallCheck(this, HomeSrv);
+	var HomeSvc = function () {
+	       function HomeSvc($http, AuthSvc) {
+	              _classCallCheck(this, HomeSvc);
 	
 	              this.apiUrl = 'https://api.bitbucket.org/2.0/';
 	              this.$http = $http;
-	              this.access_token = AuthSrv.getgetAccessToken();
+	              this.access_token = AuthSvc.getAccessToken();
 	       }
 	
-	       _createClass(HomeSrv, [{
+	       _createClass(HomeSvc, [{
 	              key: 'getCurrentUser',
 	              value: function getCurrentUser() {
 	                     return this.$http.get(apiUrl + 'user' + '?' + this.access_token);
 	              }
 	       }]);
 	
-	       return HomeSrv;
+	       return HomeSvc;
 	}();
 	
-	HomeSrv.$inject = ['$http', 'AuthSrv'];
-	exports.default = HomeSrv;
+	HomeSvc.$inject = ['$http', 'AuthSvc'];
+	exports.default = HomeSvc;
 
 /***/ },
 /* 15 */
