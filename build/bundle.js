@@ -36775,7 +36775,7 @@
 	       _createClass(HomeSvc, [{
 	              key: 'getCurrentUser',
 	              value: function getCurrentUser() {
-	                     return this.$http.get(this.apiUrl + 'user' + '?' + this.access_token);
+	                     return this.$http.get(this.apiUrl + 'user' + '?' + "access_token=" + encodeURIComponent(this.access_token));
 	              }
 	       }]);
 	
