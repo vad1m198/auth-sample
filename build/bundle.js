@@ -36556,7 +36556,7 @@
 	
 	        this.AuthSvc = AuthSvc;
 	        this.$state = $state;
-	        if (this.AuthSvc.getAccessToken()) {
+	        if (!this.AuthSvc.getAccessToken()) {
 	            console.log(this.AuthSvc.getAccessToken());
 	            $state.go('home');
 	        }
@@ -36731,7 +36731,7 @@
 	
 	    this.HomeSvc = HomeSvc;
 	    this.userName;
-	    if (AuthSvc.getAccessToken()) {
+	    if (!AuthSvc.getAccessToken()) {
 	        console.log(AuthSvc.getAccessToken());
 	        $state.go('login');
 	    }
