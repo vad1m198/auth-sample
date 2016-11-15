@@ -7,8 +7,9 @@ class HomeSvc {
 	}
 
     getCurrentUser() {
-        if(! this.access_token) this.access_token = this.AuthSvc.getAccessToken();
-		return this.$http.get(this.apiUrl + 'user' + '?' + "access_token=" + encodeURIComponent(this.access_token));	
+        if( !this.access_token ) this.access_token = this.AuthSvc.getAccessToken();
+        console.log('getCurrentUser access_token >>>>>>>>>>>>>>>', this.access_token)
+		return this.$http.get(this.apiUrl + 'user' + '?' + "access_token=" +this.access_token);	
     }
 }
 HomeSvc.$inject = ['$http', 'AuthSvc'];

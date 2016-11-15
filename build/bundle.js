@@ -36737,6 +36737,8 @@
 	    } else {
 	        HomeSvc.getCurrentUser().then(function (response) {
 	            return console.log("response", response);
+	        }).catch(function (error) {
+	            return console.erorr(error);
 	        });
 	    }
 	};
@@ -36778,7 +36780,8 @@
 	        key: 'getCurrentUser',
 	        value: function getCurrentUser() {
 	            if (!this.access_token) this.access_token = this.AuthSvc.getAccessToken();
-	            return this.$http.get(this.apiUrl + 'user' + '?' + "access_token=" + encodeURIComponent(this.access_token));
+	            console.log('getCurrentUser access_token >>>>>>>>>>>>>>>', this.access_token);
+	            return this.$http.get(this.apiUrl + 'user' + '?' + "access_token=" + this.access_token);
 	        }
 	    }]);
 	
