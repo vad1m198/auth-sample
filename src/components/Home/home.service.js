@@ -12,8 +12,18 @@ class HomeSvc {
             .then(response => response.data);	
     }
 
-    getUserMemberTeams(userName) {        
-		return this.$http.get(this.apiUrl + 'teams/' + userName + '?role=member' + "&access_token=" + this.access_token)
+    getUserMemberTeams() {        
+		return this.$http.get(this.apiUrl + 'teams/?role=member' + "&access_token=" + this.access_token)
+            .then(response => response.data);	
+    }
+
+    getUserAdminTeams() {        
+		return this.$http.get(this.apiUrl + 'teams/?role=admin' + "&access_token=" + this.access_token)
+            .then(response => response.data);	
+    }
+
+    getUserContributorTeams() {        
+		return this.$http.get(this.apiUrl + 'teams/?role=contributor' + "&access_token=" + this.access_token)
             .then(response => response.data);	
     }
 }

@@ -36748,10 +36748,16 @@
 	    }
 	
 	    _createClass(HomeController, [{
-	        key: "getUserMemberTeams",
-	        value: function getUserMemberTeams() {
-	            this.HomeSvc.getUserMemberTeams(this.user.username).then(function (response) {
-	                return console.log("getUserTeams", response);
+	        key: "getUserTeams",
+	        value: function getUserTeams() {
+	            this.HomeSvc.getUserMemberTeams().then(function (response) {
+	                return console.log("getUserMemberTeams", response);
+	            });
+	            this.HomeSvc.getUserAdminTeams().then(function (response) {
+	                return console.log("getUserAdminTeams", response);
+	            });
+	            this.HomeSvc.getUserContributorTeams().then(function (response) {
+	                return console.log("getUserContributorTeams", response);
 	            });
 	        }
 	    }]);
@@ -36766,7 +36772,7 @@
 /* 13 */
 /***/ function(module, exports) {
 
-	module.exports = "<h3>This is Home Component</h3>\r\n<h4>Hello: {{$ctrl.user.display_name}}</h4>\r\n<button ng-click=\"$ctrl.getUserMemberTeams()\">Get User Teams</button>\r\n"
+	module.exports = "<h3>This is Home Component</h3>\r\n<h4>Hello: {{$ctrl.user.display_name}}</h4>\r\n<button ng-click=\"$ctrl.getUserTeams()\">Get User Teams</button>\r\n"
 
 /***/ },
 /* 14 */
@@ -36802,8 +36808,22 @@
 	        }
 	    }, {
 	        key: 'getUserMemberTeams',
-	        value: function getUserMemberTeams(userName) {
-	            return this.$http.get(this.apiUrl + 'teams/' + userName + '?role=member' + "&access_token=" + this.access_token).then(function (response) {
+	        value: function getUserMemberTeams() {
+	            return this.$http.get(this.apiUrl + 'teams/?role=member' + "&access_token=" + this.access_token).then(function (response) {
+	                return response.data;
+	            });
+	        }
+	    }, {
+	        key: 'getUserAdminTeams',
+	        value: function getUserAdminTeams() {
+	            return this.$http.get(this.apiUrl + 'teams/?role=admin' + "&access_token=" + this.access_token).then(function (response) {
+	                return response.data;
+	            });
+	        }
+	    }, {
+	        key: 'getUserContributorTeams',
+	        value: function getUserContributorTeams() {
+	            return this.$http.get(this.apiUrl + 'teams/?role=contributor' + "&access_token=" + this.access_token).then(function (response) {
 	                return response.data;
 	            });
 	        }

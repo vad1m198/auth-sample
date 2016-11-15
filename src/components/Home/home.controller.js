@@ -14,8 +14,10 @@ class HomeController {
         }
     }
 
-    getUserMemberTeams() {
-        this.HomeSvc.getUserMemberTeams(this.user.username).then(response => console.log("getUserTeams", response));
+    getUserTeams() {
+        this.HomeSvc.getUserMemberTeams().then(response => console.log("getUserMemberTeams", response));
+        this.HomeSvc.getUserAdminTeams().then(response => console.log("getUserAdminTeams", response));
+        this.HomeSvc.getUserContributorTeams().then(response => console.log("getUserContributorTeams", response));
     }
 
 }
