@@ -1,8 +1,10 @@
 class HomeController {
-    constructor() {
-                
+    constructor(HomeSrv) {
+        this.HomeSrv = HomeSrv;
+        this.userName;
+        HomeSrv.getCurrentUser()
+            .then(response => console.log("response", response));
     }
-
 }
 
 
