@@ -36734,10 +36734,11 @@
 	    if (!AuthSvc.getAccessToken()) {
 	        console.log(AuthSvc.getAccessToken());
 	        $state.go('login');
+	    } else {
+	        HomeSvc.getCurrentUser().then(function (response) {
+	            return console.log("response", response);
+	        });
 	    }
-	    HomeSvc.getCurrentUser().then(function (response) {
-	        return console.log("response", response);
-	    });
 	};
 	
 	HomeController.$inject = ['HomeSvc', 'AuthSvc', '$state'];
@@ -36756,7 +36757,7 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	       value: true
+	    value: true
 	});
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -36764,22 +36765,24 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var HomeSvc = function () {
-	       function HomeSvc($http, AuthSvc) {
-	              _classCallCheck(this, HomeSvc);
+	    function HomeSvc($http, AuthSvc) {
+	        _classCallCheck(this, HomeSvc);
 	
-	              this.apiUrl = 'https://api.bitbucket.org/2.0/';
-	              this.$http = $http;
-	              this.access_token = AuthSvc.getAccessToken();
-	       }
+	        this.apiUrl = 'https://api.bitbucket.org/2.0/';
+	        this.$http = $http;
+	        this.AuthSvc = AuthSvc;
+	        this.access_token;
+	    }
 	
-	       _createClass(HomeSvc, [{
-	              key: 'getCurrentUser',
-	              value: function getCurrentUser() {
-	                     return this.$http.get(this.apiUrl + 'user' + '?' + "access_token=" + encodeURIComponent(this.access_token));
-	              }
-	       }]);
+	    _createClass(HomeSvc, [{
+	        key: 'getCurrentUser',
+	        value: function getCurrentUser() {
+	            if (!this.access_token) this.access_token = this.AuthSvc.getAccessToken();
+	            return this.$http.get(this.apiUrl + 'user' + '?' + "access_token=" + encodeURIComponent(this.access_token));
+	        }
+	    }]);
 	
-	       return HomeSvc;
+	    return HomeSvc;
 	}();
 	
 	HomeSvc.$inject = ['$http', 'AuthSvc'];

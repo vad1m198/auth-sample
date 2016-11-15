@@ -1,11 +1,13 @@
 class HomeSvc {
 	constructor($http, AuthSvc) {
         this.apiUrl = 'https://api.bitbucket.org/2.0/';
-        this.$http = $http;        
-        this.access_token = AuthSvc.getAccessToken();
+        this.$http = $http;
+        this.AuthSvc = AuthSvc;  
+        this.access_token;
 	}
 
     getCurrentUser() {
+        if(! this.access_token) this.access_token = this.AuthSvc.getAccessToken();
 		return this.$http.get(this.apiUrl + 'user' + '?' + "access_token=" + encodeURIComponent(this.access_token));	
     }
 }

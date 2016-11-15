@@ -5,9 +5,10 @@ class HomeController {
         if( !AuthSvc.getAccessToken() ) {
             console.log(AuthSvc.getAccessToken());
             $state.go('login');
-        }     
-        HomeSvc.getCurrentUser()
+        } else {
+            HomeSvc.getCurrentUser()
             .then(response => console.log("response", response));
+        }
     }
 }
 
