@@ -36798,7 +36798,7 @@
 /* 13 */
 /***/ function(module, exports) {
 
-	module.exports = "<h3>This is Home Component</h3>\r\n<h4>Hello: {{$ctrl.user.display_name}}</h4>\r\n<button ng-click=\"$ctrl.getUserTeams()\">Get User Teams</button>\r\n<ul>\r\n    <li ng-repeat=\"(uuid, team) in $ctrl.userTeams\" ng-click=\"$ctrl.getTeamRepositories(team.username)\">\r\n        <h6>{{team.display_name}}</h6>\r\n        <ul>\r\n            <li ng-repeat=\"repo in $ctrl.repositories[team.uuid]\"></li>\r\n        </ul>\r\n\r\n    </li>\r\n</ul>\r\n\r\n\r\n"
+	module.exports = "<h3>This is Home Component</h3>\r\n<h4>Hello: {{$ctrl.user.display_name}}</h4>\r\n<button ng-click=\"$ctrl.getUserTeams()\">Get User Teams</button>\r\n<ul>\r\n    <li ng-repeat=\"(uuid, team) in $ctrl.userTeams\" ng-click=\"$ctrl.getTeamRepositories(team.username)\">\r\n        <h5>{{team.display_name}}</h5>\r\n        <ul>\r\n            <li ng-repeat=\"repo in $ctrl.repositories[team.uuid]\">{{repo.slug}}</li>\r\n        </ul>\r\n\r\n    </li>\r\n</ul>\r\n\r\n\r\n"
 
 /***/ },
 /* 14 */
