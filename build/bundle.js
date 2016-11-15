@@ -36750,7 +36750,7 @@
 	    _createClass(HomeController, [{
 	        key: "getUserTeams",
 	        value: function getUserTeams() {
-	            HomeSvc.getUserTeams(this.user.uuid).then(function (response) {
+	            this.HomeSvc.getUserTeams(this.user.uuid).then(function (response) {
 	                return console.log("getUserTeams", response);
 	            });
 	        }
