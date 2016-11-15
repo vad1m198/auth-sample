@@ -36775,8 +36775,8 @@
 	    }, {
 	        key: "getTeamRepositories",
 	        value: function getTeamRepositories() {
-	            console.log('Object.keys(this.userTeams)[0]', Object.keys(this.userTeams)[0]);
-	            this.HomeSvc.getTeamRepositories(this.userTeams[Object.keys(this.userTeams)[0]]).then(function (response) {
+	            console.log('Object.keys(this.userTeams)[0]', Object.keys(this.userTeams)[0], this.userTeams[Object.keys(this.userTeams)[0]]);
+	            this.HomeSvc.getTeamRepositories(this.userTeams[Object.keys(this.userTeams)[0]].username).then(function (response) {
 	                return console.log("getTeamRepositories", response);
 	            });
 	        }
