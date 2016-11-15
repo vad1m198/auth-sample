@@ -36781,7 +36781,7 @@
 	            this.HomeSvc.getTeamRepositories(teamUserName).then(function (response) {
 	                console.log("getTeamRepositories", response);
 	                if (response.values.length > 0) {
-	                    _this3.repositories[response.values[0].owner.uuid] = values;
+	                    _this3.repositories[response.values[0].owner.uuid] = response.values;
 	                }
 	                console.log(" this.repositories", _this3.repositories);
 	            });
