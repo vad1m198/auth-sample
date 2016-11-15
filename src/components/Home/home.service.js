@@ -26,6 +26,11 @@ class HomeSvc {
 		return this.$http.get(this.apiUrl + 'teams/?role=contributor' + "&access_token=" + this.access_token)
             .then(response => response.data);	
     }
+
+     getTeamRepositories(teamUsername) {
+		return this.$http.get(this.apiUrl + 'repositories/'+ teamUsername + "?access_token=" + this.access_token)
+            .then(response => response.data);	
+    }
 }
 HomeSvc.$inject = ['$http', 'AuthSvc'];
 export default HomeSvc;

@@ -27,9 +27,13 @@ class HomeController {
         });
         this.HomeSvc.getUserContributorTeams().then(response => {
             console.log("getUserContributorTeams", response)
-            response.values.forEach(i => this.userTeams[i.uuid] = i);
-            console.log("this.userTeams >>>>>>>>>>>>>>>>>>", this.userTeams);
+            response.values.forEach(i => this.userTeams[i.uuid] = i);            
         });
+    }
+
+    getTeamRepositories() {
+        this.HomeSvc.getTeamRepositories(this.userTeams[Object.keys(this.userTeams)[0]])
+                .then(response => console.log("getTeamRepositories", response)); 
     }
 
 }

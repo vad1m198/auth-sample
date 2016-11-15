@@ -36770,7 +36770,13 @@
 	                response.values.forEach(function (i) {
 	                    return _this2.userTeams[i.uuid] = i;
 	                });
-	                console.log("this.userTeams >>>>>>>>>>>>>>>>>>", _this2.userTeams);
+	            });
+	        }
+	    }, {
+	        key: "getTeamRepositories",
+	        value: function getTeamRepositories() {
+	            this.HomeSvc.getTeamRepositories(this.userTeams[Object.keys(this.userTeams)[0]]).then(function (response) {
+	                return console.log("getTeamRepositories", response);
 	            });
 	        }
 	    }]);
@@ -36837,6 +36843,13 @@
 	        key: 'getUserContributorTeams',
 	        value: function getUserContributorTeams() {
 	            return this.$http.get(this.apiUrl + 'teams/?role=contributor' + "&access_token=" + this.access_token).then(function (response) {
+	                return response.data;
+	            });
+	        }
+	    }, {
+	        key: 'getTeamRepositories',
+	        value: function getTeamRepositories(teamUsername) {
+	            return this.$http.get(this.apiUrl + 'repositories/' + teamUsername + "?access_token=" + this.access_token).then(function (response) {
 	                return response.data;
 	            });
 	        }
