@@ -36764,6 +36764,7 @@
 	            this.HomeSvc.getUserContributorTeams().then(function (response) {
 	                console.log("getUserContributorTeams", response);
 	                _this2.userTeams[response.uuid] = response;
+	                console.log("this.userTeams >>>>>>>>>>>>>>>>>>", _this2.userTeams);
 	            });
 	        }
 	    }]);

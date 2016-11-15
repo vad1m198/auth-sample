@@ -27,6 +27,7 @@ class HomeController {
         this.HomeSvc.getUserContributorTeams().then(response => {
             console.log("getUserContributorTeams", response)
             this.userTeams[response.uuid] = response;
+            console.log("this.userTeams >>>>>>>>>>>>>>>>>>", this.userTeams);
         });
     }
 
