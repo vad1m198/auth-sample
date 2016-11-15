@@ -36803,7 +36803,7 @@
 	    }, {
 	        key: 'getUserMemberTeams',
 	        value: function getUserMemberTeams(uuid) {
-	            return this.$http.get(this.apiUrl + 'teams' + uuid + '?role=member' + "&access_token=" + this.access_token).then(function (response) {
+	            return this.$http.get(this.apiUrl + 'teams/' + uuid + '?role=member' + "&access_token=" + this.access_token).then(function (response) {
 	                return response.data;
 	            });
 	        }
