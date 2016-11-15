@@ -18,15 +18,16 @@ class HomeController {
     getUserTeams() {
         this.HomeSvc.getUserMemberTeams().then(response => {
             console.log("getUserMemberTeams", response);
-            this.userTeams[response.uuid] = response;
+            response.values.forEach(i => this.userTeams[i.uuid] = i);
+            
         });
         this.HomeSvc.getUserAdminTeams().then(response => {
             console.log("getUserAdminTeams", response)
-            this.userTeams[response.uuid] = response;
+            response.values.forEach(i => this.userTeams[i.uuid] = i);
         });
         this.HomeSvc.getUserContributorTeams().then(response => {
             console.log("getUserContributorTeams", response)
-            this.userTeams[response.uuid] = response;
+            response.values.forEach(i => this.userTeams[i.uuid] = i);
             console.log("this.userTeams >>>>>>>>>>>>>>>>>>", this.userTeams);
         });
     }

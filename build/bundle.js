@@ -36755,15 +36755,21 @@
 	
 	            this.HomeSvc.getUserMemberTeams().then(function (response) {
 	                console.log("getUserMemberTeams", response);
-	                _this2.userTeams[response.uuid] = response;
+	                response.values.forEach(function (i) {
+	                    return _this2.userTeams[i.uuid] = i;
+	                });
 	            });
 	            this.HomeSvc.getUserAdminTeams().then(function (response) {
 	                console.log("getUserAdminTeams", response);
-	                _this2.userTeams[response.uuid] = response;
+	                response.values.forEach(function (i) {
+	                    return _this2.userTeams[i.uuid] = i;
+	                });
 	            });
 	            this.HomeSvc.getUserContributorTeams().then(function (response) {
 	                console.log("getUserContributorTeams", response);
-	                _this2.userTeams[response.uuid] = response;
+	                response.values.forEach(function (i) {
+	                    return _this2.userTeams[i.uuid] = i;
+	                });
 	                console.log("this.userTeams >>>>>>>>>>>>>>>>>>", _this2.userTeams);
 	            });
 	        }
