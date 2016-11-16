@@ -4,7 +4,7 @@
          <option value="">-- choose member --</option>
     </select>
     <ul ng-if="!$ctrl.loading">
-        <li ng-repeat="commit in $ctrl.commits" ng-if="$ctrl.isCommitVisible(commit)">{{commit.hash}}</li>        
+        <li ng-repeat="commit in $ctrl.commits" ng-if="$ctrl.isCommitVisible(commit)">{{commit.hash}} - {{commit.date}} - {{commit.message}} - {{$ctrl.getProjectName(commit.repository.uuid)}}</li>        
     </ul>
     <h3 ng-if="$ctrl.loading">Loading...</h3>
 

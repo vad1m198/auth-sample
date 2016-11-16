@@ -29,13 +29,12 @@ class TeamController {
     }
 
     isCommitVisible(commit) {        
-        if(!commit.author.user) return false;
-        return this.selectedMember ? angular.equals(commit.author.user.username, this.selectedMember.username) : true;
-        
+        //if(!commit.author.user) return false;
+        return this.selectedMember ? angular.equals(commit.author.user && commit.author.user.username, this.selectedMember.username) : true;        
     }
 
-    onChange() {
-        console.log("this.selectedMember", this.selectedMember);
+    getProjectName(repositoryuuId) {
+        return this.repositories.find( r => r.uuid = repositoryuuId).project.name;
     }
 }
 
