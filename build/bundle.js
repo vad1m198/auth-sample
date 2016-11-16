@@ -36578,7 +36578,7 @@
 /* 8 */
 /***/ function(module, exports) {
 
-	module.exports = "<h3>Please authicate!!!</h3> \r\n<button ng-click=\"$ctrl.startOauth()\">Login with bitbucket</button>"
+	module.exports = "<h3>Please authicate!</h3> \r\n<button ng-click=\"$ctrl.startOauth()\">Login with bitbucket</button>"
 
 /***/ },
 /* 9 */
@@ -36602,7 +36602,8 @@
 	
 	        this.clientId = 'VReDDtftrDyQyAdyJL';
 	        this.authorizationUrlBase = 'https://bitbucket.org/site/oauth2/authorize';
-	        this.redirectUri = 'https://static-site-serve.herokuapp.com/oauth2callbackBB.html';
+	        //this.redirectUri = 'https://static-site-serve.herokuapp.com/oauth2callbackBB.html';
+	        this.redirectUri = 'http://localhost:8080/oauth2callbackBB.html';
 	        this.scope = 'account';
 	        this.state;
 	        this.oauthParams;
