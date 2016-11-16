@@ -8,32 +8,31 @@ class HomeSvc {
 
     getCurrentUser() {
         if( !this.access_token ) this.access_token = this.AuthSvc.getAccessToken();        
-		return this.$http.get(this.apiUrl + 'user' + '?' + "access_token=" + this.access_token)
+        return this.$http.get(this.apiUrl + 'user' + '?' + "access_token=" + this.access_token)
             .then(response => response.data);	
     }
 
     getUserMemberTeams() {        
-		return this.$http.get(this.apiUrl + 'teams/?role=member' + "&access_token=" + this.access_token)
+	return this.$http.get(this.apiUrl + 'teams/?role=member' + "&access_token=" + this.access_token)
             .then(response => response.data);	
     }
 
-    getUserAdminTeams() {        
-		return this.$http.get(this.apiUrl + 'teams/?role=admin' + "&access_token=" + this.access_token)
+    getUserTeams(role) {        
+	return this.$http.get(this.apiUrl + 'teams/?role='+ role + "&access_token=" + this.access_token)
             .then(response => response.data);	
     }
 
-    getUserContributorTeams() {        
-		return this.$http.get(this.apiUrl + 'teams/?role=contributor' + "&access_token=" + this.access_token)
+     getUserRepositories(userName) {        
+	return this.$http.get(this.apiUrl + 'repositories/' + userName +"?access_token=" + this.access_token)
             .then(response => response.data);	
     }
 
-     getTeamRepositories(teamUsername) {
-		return this.$http.get(this.apiUrl + 'repositories/'+ teamUsername + "?access_token=" + this.access_token)
+    getTeamMembers(teamUsername) {            
+	return this.$http.get(this.apiUrl + 'teams/'+ teamUsername + '/members' + "?access_token=" + this.access_token)
             .then(response => response.data);	
     }
 
-    getRepoCommits(ownerName, repoSlug){
-        //https://api.bitbucket.org/2.0/repositories/project_team198/test_project_repo/commits
+    getRepoCommits(ownerName, repoSlug){        
         return this.$http.get(this.apiUrl + 'repositories/'+ ownerName + '/' + repoSlug + '/commits' + "?access_token=" + this.access_token)
             .then(response => response.data);
     }

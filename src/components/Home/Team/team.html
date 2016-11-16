@@ -1,0 +1,11 @@
+<section class="sl-team">
+    <span>{{$ctrl.slTeam.display_name}}</span>
+    <select ng-options="member.display_name for member in $ctrl.members track by member.username" ng-model="$ctrl.selectedMember" ng-change="$ctrl.onChange();">
+         <option value="">-- choose member --</option>
+    </select>
+    <ul ng-if="!$ctrl.loading">
+        <li ng-repeat="commit in $ctrl.commits" ng-if="$ctrl.isCommitVisible(commit)">{{commit.hash}}</li>        
+    </ul>
+    <h3 ng-if="$ctrl.loading">Loading...</h3>
+
+</section>
