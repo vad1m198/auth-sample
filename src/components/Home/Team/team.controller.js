@@ -20,7 +20,6 @@ class TeamController {
             }).then(response => {
                 console.log("getRepoCommits", response);
                  this.commits = response[0].values;
-                 console.log("this.commits", this.commits)
                  this.loading = false;
             }).catch(error => {
                 console.error('some error present', error);
@@ -28,13 +27,16 @@ class TeamController {
             });
     }
 
-    isCommitVisible(commit) {        
-        //if(!commit.author.user) return false;
+    isCommitVisible(commit) {
         return this.selectedMember ? angular.equals(commit.author.user && commit.author.user.username, this.selectedMember.username) : true;        
     }
 
     getProjectName(repositoryuuId) {
         return this.repositories.find( r => r.uuid = repositoryuuId).project.name;
+    }
+
+    getTeamProjects() {
+        this.HomeSvc.getTeamProject(this.slTeam.username).then( response => console.log("getTeamProjects", response));
     }
 }
 

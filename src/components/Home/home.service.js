@@ -37,9 +37,10 @@ class HomeSvc {
             .then(response => response.data);
     }
 
-    
-
-
+    getTeamProject(ownerName){        
+        return this.$http.get(this.apiUrl + 'teams/'+ ownerName + '/projects/' + "?access_token=" + this.access_token)
+            .then(response => response.data);    
+    }
 }
 HomeSvc.$inject = ['$http', 'AuthSvc'];
 export default HomeSvc;

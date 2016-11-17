@@ -36759,6 +36759,13 @@
 	                return response.data;
 	            });
 	        }
+	    }, {
+	        key: 'getTeamProject',
+	        value: function getTeamProject(ownerName) {
+	            return this.$http.get(this.apiUrl + 'teams/' + ownerName + '/projects/' + "?access_token=" + this.access_token).then(function (response) {
+	                return response.data;
+	            });
+	        }
 	    }]);
 	
 	    return HomeSvc;
@@ -36927,7 +36934,6 @@
 	        }).then(function (response) {
 	            console.log("getRepoCommits", response);
 	            _this.commits = response[0].values;
-	            console.log("this.commits", _this.commits);
 	            _this.loading = false;
 	        }).catch(function (error) {
 	            console.error('some error present', error);
@@ -36938,7 +36944,6 @@
 	    _createClass(TeamController, [{
 	        key: "isCommitVisible",
 	        value: function isCommitVisible(commit) {
-	            //if(!commit.author.user) return false;
 	            return this.selectedMember ? angular.equals(commit.author.user && commit.author.user.username, this.selectedMember.username) : true;
 	        }
 	    }, {
@@ -36947,6 +36952,13 @@
 	            return this.repositories.find(function (r) {
 	                return r.uuid = repositoryuuId;
 	            }).project.name;
+	        }
+	    }, {
+	        key: "getTeamProjects",
+	        value: function getTeamProjects() {
+	            this.HomeSvc.getTeamProject(this.slTeam.username).then(function (response) {
+	                return console.log("getTeamProjects", response);
+	            });
 	        }
 	    }]);
 	
@@ -36960,7 +36972,7 @@
 /* 17 */
 /***/ function(module, exports) {
 
-	module.exports = "<section class=\"sl-team\">\r\n    <span>{{$ctrl.slTeam.display_name}}</span>\r\n    <select ng-options=\"member.display_name for member in $ctrl.members track by member.username\" ng-model=\"$ctrl.selectedMember\" ng-change=\"$ctrl.onChange();\">\r\n         <option value=\"\">-- choose member --</option>\r\n    </select>\r\n    <ul ng-if=\"!$ctrl.loading\">\r\n        <li ng-repeat=\"commit in $ctrl.commits\" ng-if=\"$ctrl.isCommitVisible(commit)\">{{commit.hash}} - {{commit.date}} - {{commit.message}} - {{$ctrl.getProjectName(commit.repository.uuid)}}</li>        \r\n    </ul>\r\n    <h3 ng-if=\"$ctrl.loading\">Loading...</h3>\r\n\r\n</section>\r\n"
+	module.exports = "<section class=\"sl-team\">\r\n    <span>{{$ctrl.slTeam.display_name}}</span>\r\n    <select ng-options=\"member.display_name for member in $ctrl.members track by member.username\" ng-model=\"$ctrl.selectedMember\" ng-change=\"$ctrl.onChange();\">\r\n         <option value=\"\">-- choose member --</option>\r\n    </select>\r\n    <ul ng-if=\"!$ctrl.loading\">\r\n        <li ng-repeat=\"commit in $ctrl.commits\" ng-if=\"$ctrl.isCommitVisible(commit)\">{{commit.hash}} - {{commit.date}} - {{commit.message}} - {{$ctrl.getProjectName(commit.repository.uuid)}}</li>        \r\n    </ul>\r\n    <h3 ng-if=\"$ctrl.loading\">Loading...</h3>\r\n    <button  ng-if=\"!$ctrl.loading\" ng-click=\"$ctrl.getTeamProjects()\">Get Team Projects</button>\r\n\r\n</section>\r\n"
 
 /***/ },
 /* 18 */

@@ -7,5 +7,6 @@
         <li ng-repeat="commit in $ctrl.commits" ng-if="$ctrl.isCommitVisible(commit)">{{commit.hash}} - {{commit.date}} - {{commit.message}} - {{$ctrl.getProjectName(commit.repository.uuid)}}</li>        
     </ul>
     <h3 ng-if="$ctrl.loading">Loading...</h3>
+    <button  ng-if="!$ctrl.loading" ng-click="$ctrl.getTeamProjects()">Get Team Projects</button>
 
 </section>
