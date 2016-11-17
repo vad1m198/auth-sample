@@ -36816,9 +36816,6 @@
 	        this.HomeSvc = HomeSvc;
 	        this.user;
 	        this.userTeams = {};
-	        this.repositories = {};
-	        this.commits = {};
-	        this.commitDetailsToShow = [];
 	        if (!AuthSvc.getAccessToken()) {
 	            $state.go('login');
 	        } else {
@@ -36843,43 +36840,6 @@
 	                });
 	            });
 	        }
-	        /*
-	            getTeamRepositories(teamUserName) {
-	                this.HomeSvc.getTeamRepositories(teamUserName)
-	                        .then(response => {
-	                            console.log("getTeamRepositories", response);
-	                            if(response.values.length > 0) {
-	                                this.repositories[response.values[0].owner.uuid] = response.values
-	                            }
-	                            console.log(" this.repositories",  this.repositories)
-	                        });
-	                
-	            }
-	        
-	            getRepoCommits(ownerName, repoSlug) {        
-	                this.HomeSvc.getRepoCommits(ownerName, repoSlug)
-	                    .then(response => {
-	                        console.log("getRepoCommits response", response);
-	                        if(response.values.length > 0) {
-	                                this.commits[response.values[0].repository.uuid] = response.values
-	                            }
-	                            console.log("this.commits",   this.commits)
-	                    })
-	            }
-	        
-	            toggleCommitDetails(commitHash) {
-	                 if(this.commitDetailsToShow.filter(i => i == commitHash).length > 0) {
-	                     this.commitDetailsToShow = this.commitDetailsToShow.filter(i => i != commitHash);
-	                 } else {
-	                     this.commitDetailsToShow.push(commitHash);
-	                }         
-	            }
-	        
-	            isCommitDetailsVisible(commitHash) {
-	                return this.commitDetailsToShow.filter(i => i == commitHash).length > 0;
-	            }
-	            */
-	
 	    }]);
 	
 	    return HomeController;
@@ -36892,7 +36852,7 @@
 /* 14 */
 /***/ function(module, exports) {
 
-	module.exports = "<h2>This is Home Component</h2>\r\n<h3>Hello: {{$ctrl.user.display_name}}</h3>\r\n<button ng-click=\"$ctrl.getUserTeams()\">Get User Teams</button>\r\n<br/>\r\n<!--ul>\r\n    <li ng-repeat=\"(uuid, team) in $ctrl.userTeams\">\r\n        <h4  ng-click=\"$ctrl.getTeamRepositories(team.username); $event.stopPropagation();\">{{team.display_name}}</h4>\r\n        <ul>\r\n            <li ng-repeat=\"repo in $ctrl.repositories[team.uuid]\">\r\n                <h5  ng-click=\"$ctrl.getRepoCommits(repo.owner.username, repo.slug); $event.stopPropagation();\">{{repo.slug}}</h5>   \r\n                <ul>\r\n                    <li ng-repeat=\"commit in $ctrl.commits[repo.uuid]\">\r\n                        <h6  ng-click=\"$ctrl.toggleCommitDetails(commit.hash);   $event.stopPropagation();\">{{commit.hash}}</h6>\r\n                            <ul ng-if=\"$ctrl.isCommitDetailsVisible(commit.hash)\">\r\n                                <li>{{commit.date}}</li>\r\n                                <li>{{commit.author.raw}}</li>\r\n                                <li>{{commit.message}}</li>\r\n                            </ul>\r\n                    </li>\r\n                </ul>                \r\n            </li>\r\n        </ul>\r\n\r\n    </li>\r\n</ul-->\r\n<sl-team ng-repeat=\"(uuid, team) in $ctrl.userTeams\" sl-team=\"team\"></sl-team>\r\n\r\n\r\n\r\n\r\n"
+	module.exports = "<h2>This is Home Component</h2>\r\n<h3>Hello: {{$ctrl.user.display_name}}</h3>\r\n<button ng-click=\"$ctrl.getUserTeams()\">Get User Teams</button>\r\n<br/>\r\n<sl-team ng-repeat=\"(uuid, team) in $ctrl.userTeams\" sl-team=\"team\"></sl-team>\r\n\r\n\r\n\r\n\r\n"
 
 /***/ },
 /* 15 */
@@ -36950,6 +36910,7 @@
 	        this.members = [];
 	        this.repositories = [];
 	        this.commits = [];
+	        this.loading = true;
 	        this.selectedMember;
 	        this.HomeSvc.getTeamMembers(this.slTeam.username).then(function (response) {
 	            console.log("getTeamMembers", response);
@@ -36967,19 +36928,25 @@
 	            console.log("getRepoCommits", response);
 	            _this.commits = response[0].values;
 	            console.log("this.commits", _this.commits);
+	            _this.loading = false;
+	        }).catch(function (error) {
+	            console.error('some error present', error);
+	            _this.loading = false;
 	        });
 	    }
 	
 	    _createClass(TeamController, [{
-	        key: "onChange",
-	        value: function onChange() {
-	            console.log("onChange >>>>>>>", this.selected);
+	        key: "isCommitVisible",
+	        value: function isCommitVisible(commit) {
+	            //if(!commit.author.user) return false;
+	            return this.selectedMember ? angular.equals(commit.author.user && commit.author.user.username, this.selectedMember.username) : true;
 	        }
 	    }, {
-	        key: "filterCommitsBySelectedMember",
-	        value: function filterCommitsBySelectedMember(commit) {
-	            console.log("commit", commit.author.user.username == this.selectedMember.username);
-	            return commit.author.user.username == this.selectedMember.username;
+	        key: "getProjectName",
+	        value: function getProjectName(repositoryuuId) {
+	            return this.repositories.find(function (r) {
+	                return r.uuid = repositoryuuId;
+	            }).project.name;
 	        }
 	    }]);
 	
@@ -36993,7 +36960,7 @@
 /* 17 */
 /***/ function(module, exports) {
 
-	module.exports = "<section class=\"sl-team\">\r\n    <span>{{$ctrl.slTeam.display_name}}</span>\r\n    <select ng-options=\"member.display_name for member in $ctrl.members track by member.username\" ng-model=\"$ctrl.selectedMember\" ng-change=\"$ctrl.onChange();\">\r\n         <option value=\"\">-- choose member --</option>\r\n    </select>\r\n    <ul>\r\n        <li ng-repeat=\"commit in $ctrl.commits | filter:$ctrl.selectedMember:filterCommitsBySelectedMember(commit)\">{{commit.hash}}</li>\r\n        friend in friends | filter:searchText\r\n    </ul>\r\n\r\n</section>\r\n"
+	module.exports = "<section class=\"sl-team\">\r\n    <span>{{$ctrl.slTeam.display_name}}</span>\r\n    <select ng-options=\"member.display_name for member in $ctrl.members track by member.username\" ng-model=\"$ctrl.selectedMember\" ng-change=\"$ctrl.onChange();\">\r\n         <option value=\"\">-- choose member --</option>\r\n    </select>\r\n    <ul ng-if=\"!$ctrl.loading\">\r\n        <li ng-repeat=\"commit in $ctrl.commits\" ng-if=\"$ctrl.isCommitVisible(commit)\">{{commit.hash}} - {{commit.date}} - {{commit.message}} - {{$ctrl.getProjectName(commit.repository.uuid)}}</li>        \r\n    </ul>\r\n    <h3 ng-if=\"$ctrl.loading\">Loading...</h3>\r\n\r\n</section>\r\n"
 
 /***/ },
 /* 18 */

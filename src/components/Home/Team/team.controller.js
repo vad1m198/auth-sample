@@ -16,7 +16,7 @@ class TeamController {
                 this.repositories = response.values;                
                 let promises = [];
                 this.repositories.forEach(r => promises.push(this.HomeSvc.getRepoCommits(this.slTeam.username, r.slug)))
-                return Promise.all(promises)                
+                return Promise.all(promises)
             }).then(response => {
                 console.log("getRepoCommits", response);
                  this.commits = response[0].values;
