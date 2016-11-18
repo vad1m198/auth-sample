@@ -1,9 +1,4 @@
-.sl-team {
-    padding: 1.5rem;    
-}
-
-.sl-team .members>div,
-.sl-team .projects>div {
+.sl-team-block {
     padding: .5rem;
     margin: .1rem;
     border: 1px solid black;
@@ -11,7 +6,10 @@
     cursor: pointer;
 }
 
-.sl-team .members>div:hover,
-.sl-team .projects>div:hover {
+.sl-team-block.selected {
+    background-color: lightgray;
+}
+
+.sl-team-block:hover {
     background-color: white;
 }

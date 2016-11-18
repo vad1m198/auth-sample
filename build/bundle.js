@@ -69,7 +69,7 @@
 	
 	var _homeModule2 = _interopRequireDefault(_homeModule);
 	
-	__webpack_require__(22);
+	__webpack_require__(24);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -36675,7 +36675,7 @@
 	
 	var _homeComponent2 = _interopRequireDefault(_homeComponent);
 	
-	var _teamComponent = __webpack_require__(15);
+	var _teamComponent = __webpack_require__(19);
 	
 	var _teamComponent2 = _interopRequireDefault(_teamComponent);
 	
@@ -36687,6 +36687,18 @@
 	    $stateProvider.state('home', {
 	        url: '/home',
 	        template: '<home></home>'
+	    });
+	    "ngInject";
+	    $stateProvider.state('team', {
+	        parent: 'home',
+	        url: '/:teamId',
+	        template: '<sl-team sl-team="team"></sl-team>',
+	        params: {
+	            team: null
+	        },
+	        controller: ["$stateParams", "$scope", function controller($stateParams, $scope) {
+	            $scope.team = $stateParams.team;
+	        }]
 	    });
 	}]).component('home', _homeComponent2.default).component('slTeam', _teamComponent2.default).service('HomeSvc', _homeService2.default).name;
 	
@@ -36717,17 +36729,17 @@
 	    }
 	
 	    _createClass(HomeSvc, [{
-	        key: 'getCurrentUser',
-	        value: function getCurrentUser() {
-	            if (!this.access_token) this.access_token = this.AuthSvc.getAccessToken();
-	            return this.$http.get(this.apiUrl + 'user' + '?' + "access_token=" + this.access_token).then(function (response) {
+	        key: 'getDataByLink',
+	        value: function getDataByLink(url) {
+	            return this.$http.get(url + "?access_token=" + this.access_token).then(function (response) {
 	                return response.data;
 	            });
 	        }
 	    }, {
-	        key: 'getUserMemberTeams',
-	        value: function getUserMemberTeams() {
-	            return this.$http.get(this.apiUrl + 'teams/?role=member' + "&access_token=" + this.access_token).then(function (response) {
+	        key: 'getCurrentUser',
+	        value: function getCurrentUser() {
+	            if (!this.access_token) this.access_token = this.AuthSvc.getAccessToken();
+	            return this.$http.get(this.apiUrl + 'user' + '?' + "access_token=" + this.access_token).then(function (response) {
 	                return response.data;
 	            });
 	        }
@@ -36738,34 +36750,30 @@
 	                return response.data;
 	            });
 	        }
-	    }, {
-	        key: 'getUserRepositories',
-	        value: function getUserRepositories(userName) {
-	            return this.$http.get(this.apiUrl + 'repositories/' + userName + "?access_token=" + this.access_token).then(function (response) {
-	                return response.data;
-	            });
+	
+	        /*
+	        getUserMemberTeams() {        
+	        return this.$http.get(this.apiUrl + 'teams/?role=member' + "&access_token=" + this.access_token)
+	                .then(response => response.data);	
 	        }
-	    }, {
-	        key: 'getTeamMembers',
-	        value: function getTeamMembers(teamUsername) {
-	            return this.$http.get(this.apiUrl + 'teams/' + teamUsername + '/members' + "?access_token=" + this.access_token).then(function (response) {
-	                return response.data;
-	            });
+	           getUserRepositories(userName) {        
+	        return this.$http.get(this.apiUrl + 'repositories/' + userName +"?access_token=" + this.access_token)
+	                .then(response => response.data);	
 	        }
-	    }, {
-	        key: 'getRepoCommits',
-	        value: function getRepoCommits(ownerName, repoSlug) {
-	            return this.$http.get(this.apiUrl + 'repositories/' + ownerName + '/' + repoSlug + '/commits' + "?access_token=" + this.access_token).then(function (response) {
-	                return response.data;
-	            });
+	          getTeamMembers(teamUsername) {            
+	        return this.$http.get(this.apiUrl + 'teams/'+ teamUsername + '/members' + "?access_token=" + this.access_token)
+	                .then(response => response.data);	
 	        }
-	    }, {
-	        key: 'getTeamProject',
-	        value: function getTeamProject(ownerName) {
-	            return this.$http.get(this.apiUrl + 'teams/' + ownerName + '/projects/' + "?access_token=" + this.access_token).then(function (response) {
-	                return response.data;
-	            });
+	          getRepoCommits(ownerName, repoSlug){        
+	            return this.$http.get(this.apiUrl + 'repositories/'+ ownerName + '/' + repoSlug + '/commits' + "?access_token=" + this.access_token)
+	                .then(response => response.data);
 	        }
+	          getTeamProject(ownerName){        
+	            return this.$http.get(this.apiUrl + 'teams/'+ ownerName + '/projects/' + "?access_token=" + this.access_token)
+	                .then(response => response.data);    
+	        }
+	        */
+	
 	    }]);
 	
 	    return HomeSvc;
@@ -36791,6 +36799,8 @@
 	var _home = __webpack_require__(14);
 	
 	var _home2 = _interopRequireDefault(_home);
+	
+	__webpack_require__(15);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -36822,7 +36832,11 @@
 	
 	        this.HomeSvc = HomeSvc;
 	        this.user;
-	        this.userTeams = {};
+	        this.selectedRole;
+	        this.selectedTeam;
+	        this.$state = $state;
+	        this.roles = ['admin', 'member', 'contributor'];
+	        this.userTeams = [];
 	        if (!AuthSvc.getAccessToken()) {
 	            $state.go('login');
 	        } else {
@@ -36840,12 +36854,21 @@
 	        value: function getUserTeams() {
 	            var _this2 = this;
 	
-	            this.HomeSvc.getUserTeams('member').then(function (response) {
-	                console.log("getUserMemberTeams", response);
-	                response.values.forEach(function (i) {
-	                    return _this2.userTeams[i.uuid] = i;
-	                });
+	            this.HomeSvc.getUserTeams(this.selectedRole).then(function (response) {
+	                console.log("getUserTeams", _this2.selectedRole, response);
+	                _this2.userTeams = response.values;
 	            });
+	        }
+	    }, {
+	        key: 'setSelected',
+	        value: function setSelected(team) {
+	            this.selectedTeam && this.selectedTeam.uuid == team.uuid ? this.selectedTeam = undefined : this.selectedTeam = team;
+	            this.$state.go('team', { teamId: encodeURIComponent(this.selectedTeam.uuid), team: this.selectedTeam });
+	        }
+	    }, {
+	        key: 'isSeleted',
+	        value: function isSeleted(teamId) {
+	            return this.selectedTeam && this.selectedTeam.uuid == teamId;
 	        }
 	    }]);
 	
@@ -36859,139 +36882,26 @@
 /* 14 */
 /***/ function(module, exports) {
 
-	module.exports = "<h2>This is Home Component</h2>\r\n<h3>Hello: {{$ctrl.user.display_name}}</h3>\r\n<button ng-click=\"$ctrl.getUserTeams()\">Get User Teams</button>\r\n<br/>\r\n<sl-team ng-repeat=\"(uuid, team) in $ctrl.userTeams\" sl-team=\"team\"></sl-team>\r\n\r\n\r\n\r\n\r\n"
+	module.exports = "<h3>Hello: {{$ctrl.user.display_name}}</h3>\r\n<span>Please select your role in bitbucket team</span>\r\n<select ng-options=\"role for role in $ctrl.roles\" ng-model=\"$ctrl.selectedRole\">\r\n        <option value=\"\">-- choose role --</option>\r\n</select>\r\n<button ng-click=\"$ctrl.getUserTeams()\" ng-if=\"$ctrl.selectedRole\">Show teams</button>\r\n<br/>\r\n<div ng-class=\"{'sl-team-block': true, selected: $ctrl.isSeleted(team.uuid)}\" ng-repeat=\"team in $ctrl.userTeams\" ng-click=\"$ctrl.setSelected(team)\">{{team.display_name}}</div>\r\n<br/>\r\n <ui-view></ui-view>\r\n\r\n\r\n\r\n"
 
 /***/ },
 /* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _teamController = __webpack_require__(16);
-	
-	var _teamController2 = _interopRequireDefault(_teamController);
-	
-	var _team = __webpack_require__(17);
-	
-	var _team2 = _interopRequireDefault(_team);
-	
-	__webpack_require__(18);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var TeamComponent = {
-	    bindings: {
-	        slTeam: '<'
-	    },
-	    template: _team2.default,
-	    controller: _teamController2.default
-	};
-	
-	exports.default = TeamComponent;
-
-/***/ },
-/* 16 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var TeamController = function () {
-	    function TeamController(HomeSvc) {
-	        var _this = this;
-	
-	        _classCallCheck(this, TeamController);
-	
-	        this.HomeSvc = HomeSvc;
-	        this.members = [];
-	        this.repositories = [];
-	        this.commits = [];
-	        this.loading = true;
-	        this.selectedMember;
-	        this.HomeSvc.getTeamMembers(this.slTeam.username).then(function (response) {
-	            console.log("getTeamMembers", response);
-	            _this.members = response.values;
-	            return _this.HomeSvc.getUserRepositories(_this.slTeam.username);
-	        }).then(function (response) {
-	            console.log("getUserRepositories", response);
-	            _this.repositories = response.values;
-	            var promises = [];
-	            _this.repositories.forEach(function (r) {
-	                return promises.push(_this.HomeSvc.getRepoCommits(_this.slTeam.username, r.slug));
-	            });
-	            return Promise.all(promises);
-	        }).then(function (response) {
-	            console.log("getRepoCommits", response);
-	            _this.commits = response[0].values;
-	            _this.loading = false;
-	        }).catch(function (error) {
-	            console.error('some error present', error);
-	            _this.loading = false;
-	        });
-	    }
-	
-	    _createClass(TeamController, [{
-	        key: "isCommitVisible",
-	        value: function isCommitVisible(commit) {
-	            return this.selectedMember ? angular.equals(commit.author.user && commit.author.user.username, this.selectedMember.username) : true;
-	        }
-	    }, {
-	        key: "getProjectName",
-	        value: function getProjectName(repositoryuuId) {
-	            return this.repositories.find(function (r) {
-	                return r.uuid = repositoryuuId;
-	            }).project.name;
-	        }
-	    }, {
-	        key: "getTeamProjects",
-	        value: function getTeamProjects() {
-	            this.HomeSvc.getTeamProject(this.slTeam.username).then(function (response) {
-	                return console.log("getTeamProjects", response);
-	            });
-	        }
-	    }]);
-	
-	    return TeamController;
-	}();
-	
-	TeamController.$inject = ['HomeSvc'];
-	exports.default = TeamController;
-
-/***/ },
-/* 17 */
-/***/ function(module, exports) {
-
-	module.exports = "<section class=\"sl-team\">\r\n    <span>{{$ctrl.slTeam.display_name}}</span>\r\n    <select ng-options=\"member.display_name for member in $ctrl.members track by member.username\" ng-model=\"$ctrl.selectedMember\" ng-change=\"$ctrl.onChange();\">\r\n         <option value=\"\">-- choose member --</option>\r\n    </select>\r\n    <ul ng-if=\"!$ctrl.loading\">\r\n        <li ng-repeat=\"commit in $ctrl.commits\" ng-if=\"$ctrl.isCommitVisible(commit)\">{{commit.hash}} - {{commit.date}} - {{commit.message}} - {{$ctrl.getProjectName(commit.repository.uuid)}}</li>        \r\n    </ul>\r\n    <h3 ng-if=\"$ctrl.loading\">Loading...</h3>\r\n    <button  ng-if=\"!$ctrl.loading\" ng-click=\"$ctrl.getTeamProjects()\">Get Team Projects</button>\r\n\r\n</section>\r\n"
-
-/***/ },
-/* 18 */
-/***/ function(module, exports, __webpack_require__) {
-
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(19);
+	var content = __webpack_require__(16);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(21)(content, {});
+	var update = __webpack_require__(18)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../../../node_modules/css-loader/index.js!./team.css", function() {
-				var newContent = require("!!./../../../../node_modules/css-loader/index.js!./team.css");
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./home.css", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./home.css");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -37001,21 +36911,21 @@
 	}
 
 /***/ },
-/* 19 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(20)();
+	exports = module.exports = __webpack_require__(17)();
 	// imports
 	
 	
 	// module
-	exports.push([module.id, ".sl-team {\r\n    padding: 1.5rem;\r\n    border-bottom: 1px black solid;\r\n}", ""]);
+	exports.push([module.id, ".sl-team-block {\r\n    padding: .5rem;\r\n    margin: .1rem;\r\n    border: 1px solid black;\r\n    display: inline-block;\r\n    cursor: pointer;\r\n}\r\n\r\n.sl-team-block.selected {\r\n    background-color: lightgray;\r\n}\r\n\r\n.sl-team-block:hover {\r\n    background-color: white;\r\n}", ""]);
 	
 	// exports
 
 
 /***/ },
-/* 20 */
+/* 17 */
 /***/ function(module, exports) {
 
 	/*
@@ -37071,7 +36981,7 @@
 
 
 /***/ },
-/* 21 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -37323,6 +37233,80 @@
 
 
 /***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	   value: true
+	});
+	
+	var _teamController = __webpack_require__(20);
+	
+	var _teamController2 = _interopRequireDefault(_teamController);
+	
+	var _team = __webpack_require__(21);
+	
+	var _team2 = _interopRequireDefault(_team);
+	
+	__webpack_require__(22);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var TeamComponent = {
+	   bindings: {
+	      slTeam: '<'
+	   },
+	   template: _team2.default,
+	   controller: _teamController2.default
+	};
+	
+	exports.default = TeamComponent;
+
+/***/ },
+/* 20 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var TeamController = function TeamController(HomeSvc) {
+	    var _this = this;
+	
+	    _classCallCheck(this, TeamController);
+	
+	    this.HomeSvc = HomeSvc;
+	    this.members = [];
+	    this.projects = [];
+	    this.loading = false;
+	    if (this.slTeam) {
+	        this.HomeSvc.getDataByLink(this.slTeam.links.members.href).then(function (response) {
+	            console.log("getTeamMembers", response);
+	            _this.members = response.values;
+	        });
+	        this.HomeSvc.getDataByLink(this.slTeam.links.projects.href).then(function (response) {
+	            console.log("getTeamProjects", response);
+	            _this.projects = response.values;
+	        });
+	    }
+	};
+	
+	TeamController.$inject = ['HomeSvc'];
+	exports.default = TeamController;
+
+/***/ },
+/* 21 */
+/***/ function(module, exports) {
+
+	module.exports = "<section class=\"sl-team\">    \r\n    \r\n    <div class=\"members\">\r\n        Team Members:\r\n        <div ng-repeat=\"member in $ctrl.members\">{{member.display_name}}</div>\r\n    </div>\r\n    <hr/>\r\n    <div class=\"projects\">\r\n        Team Projects:\r\n        <div ng-repeat=\"pr in $ctrl.projects\">{{pr.name}}</div>\r\n    </div>\r\n</section>"
+
+/***/ },
 /* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -37332,7 +37316,47 @@
 	var content = __webpack_require__(23);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(21)(content, {});
+	var update = __webpack_require__(18)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js!./team.css", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js!./team.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(17)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".sl-team {\r\n    padding: 1.5rem;    \r\n}\r\n\r\n.sl-team .members>div,\r\n.sl-team .projects>div {\r\n    padding: .5rem;\r\n    margin: .1rem;\r\n    border: 1px solid black;\r\n    display: inline-block;\r\n    cursor: pointer;\r\n}\r\n\r\n.sl-team .members>div:hover,\r\n.sl-team .projects>div:hover {\r\n    background-color: white;\r\n}", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 24 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(25);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(18)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -37349,10 +37373,10 @@
 	}
 
 /***/ },
-/* 23 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(20)();
+	exports = module.exports = __webpack_require__(17)();
 	// imports
 	
 	

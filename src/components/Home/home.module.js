@@ -9,8 +9,21 @@ let homeModule = angular.module('home-module', [uiRouter])
         "ngInject";
         $stateProvider
             .state('home', {
-            url: '/home',        
-            template: `<home></home>`,
+                url: '/home',        
+                template: `<home></home>`,
+            })
+        "ngInject";
+        $stateProvider
+            .state('team', {
+                parent: 'home',
+                url: '/:teamId',
+                template: `<sl-team sl-team="team"></sl-team>`,
+                params: {
+                    team:null               
+                },
+                controller: function($stateParams, $scope) {                    
+                    $scope.team = $stateParams.team;                                       
+                }
             });
         })
     .component('home', HomeComponent)

@@ -1,12 +1,12 @@
-<section class="sl-team">
-    <span>{{$ctrl.slTeam.display_name}}</span>
-    <select ng-options="member.display_name for member in $ctrl.members track by member.username" ng-model="$ctrl.selectedMember" ng-change="$ctrl.onChange();">
-         <option value="">-- choose member --</option>
-    </select>
-    <ul ng-if="!$ctrl.loading">
-        <li ng-repeat="commit in $ctrl.commits" ng-if="$ctrl.isCommitVisible(commit)">{{commit.hash}} - {{commit.date}} - {{commit.message}} - {{$ctrl.getProjectName(commit.repository.uuid)}}</li>        
-    </ul>
-    <h3 ng-if="$ctrl.loading">Loading...</h3>
-    <button  ng-if="!$ctrl.loading" ng-click="$ctrl.getTeamProjects()">Get Team Projects</button>
-
+<section class="sl-team">    
+    
+    <div class="members">
+        Team Members:
+        <div ng-repeat="member in $ctrl.members">{{member.display_name}}</div>
+    </div>
+    <hr/>
+    <div class="projects">
+        Team Projects:
+        <div ng-repeat="pr in $ctrl.projects">{{pr.name}}</div>
+    </div>
 </section>

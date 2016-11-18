@@ -6,19 +6,25 @@ class HomeSvc {
         this.access_token;
 	}
 
+    getDataByLink(url) {
+         return this.$http.get(url + "?access_token=" + this.access_token)
+            .then(response => response.data);	
+    }
+
     getCurrentUser() {
         if( !this.access_token ) this.access_token = this.AuthSvc.getAccessToken();        
         return this.$http.get(this.apiUrl + 'user' + '?' + "access_token=" + this.access_token)
             .then(response => response.data);	
     }
 
-    getUserMemberTeams() {        
-	return this.$http.get(this.apiUrl + 'teams/?role=member' + "&access_token=" + this.access_token)
+    getUserTeams(role) {        
+	return this.$http.get(this.apiUrl + 'teams/?role='+ role + "&access_token=" + this.access_token)
             .then(response => response.data);	
     }
 
-    getUserTeams(role) {        
-	return this.$http.get(this.apiUrl + 'teams/?role='+ role + "&access_token=" + this.access_token)
+    /*
+    getUserMemberTeams() {        
+	return this.$http.get(this.apiUrl + 'teams/?role=member' + "&access_token=" + this.access_token)
             .then(response => response.data);	
     }
 
@@ -41,6 +47,7 @@ class HomeSvc {
         return this.$http.get(this.apiUrl + 'teams/'+ ownerName + '/projects/' + "?access_token=" + this.access_token)
             .then(response => response.data);    
     }
+    */
 }
 HomeSvc.$inject = ['$http', 'AuthSvc'];
 export default HomeSvc;

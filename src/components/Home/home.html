@@ -1,9 +1,13 @@
-<h2>This is Home Component</h2>
 <h3>Hello: {{$ctrl.user.display_name}}</h3>
-<button ng-click="$ctrl.getUserTeams()">Get User Teams</button>
+<span>Please select your role in bitbucket team</span>
+<select ng-options="role for role in $ctrl.roles" ng-model="$ctrl.selectedRole">
+        <option value="">-- choose role --</option>
+</select>
+<button ng-click="$ctrl.getUserTeams()" ng-if="$ctrl.selectedRole">Show teams</button>
 <br/>
-<sl-team ng-repeat="(uuid, team) in $ctrl.userTeams" sl-team="team"></sl-team>
-
+<div ng-class="{'sl-team-block': true, selected: $ctrl.isSeleted(team.uuid)}" ng-repeat="team in $ctrl.userTeams" ng-click="$ctrl.setSelected(team)">{{team.display_name}}</div>
+<br/>
+ <ui-view></ui-view>
 
 
 

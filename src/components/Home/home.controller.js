@@ -2,7 +2,11 @@ class HomeController {
     constructor(HomeSvc, AuthSvc, $state) {
         this.HomeSvc = HomeSvc;
         this.user;
-        this.userTeams = {};
+        this.selectedRole;
+        this.selectedTeam;
+        this.$state = $state;
+        this.roles = ['admin', 'member', 'contributor'];
+        this.userTeams = [];
         if( !AuthSvc.getAccessToken() ) {
             $state.go('login');
         } else {
@@ -16,11 +20,20 @@ class HomeController {
     }
 
     getUserTeams() {
-        this.HomeSvc.getUserTeams('member').then(response => {
-            console.log("getUserMemberTeams", response);
-            response.values.forEach(i => this.userTeams[i.uuid] = i);
-            
+        this.HomeSvc.getUserTeams(this.selectedRole).then(response => {
+            console.log("getUserTeams", this.selectedRole, response);
+             this.userTeams = response.values;
         });
+    }
+
+    setSelected(team) {
+         this.selectedTeam && this.selectedTeam.uuid == team.uuid
+            ? this.selectedTeam = undefined : this.selectedTeam = team;
+         this.$state.go('team', { teamId : encodeURIComponent(this.selectedTeam.uuid), team : this.selectedTeam });            
+    }
+
+    isSeleted(teamId) {
+        return this.selectedTeam && this.selectedTeam.uuid == teamId;
     }
 }
 

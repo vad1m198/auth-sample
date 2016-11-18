@@ -3,7 +3,7 @@ import template from './team.html';
 import './team.css';
 
 let TeamComponent = {
-    bindings: {
+   bindings: {
         slTeam: '<'
     },
     template,
