@@ -69,7 +69,7 @@
 	
 	var _homeModule2 = _interopRequireDefault(_homeModule);
 	
-	__webpack_require__(28);
+	__webpack_require__(26);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -36675,11 +36675,11 @@
 	
 	var _homeComponent2 = _interopRequireDefault(_homeComponent);
 	
-	var _teamComponent = __webpack_require__(19);
+	var _teamComponent = __webpack_require__(15);
 	
 	var _teamComponent2 = _interopRequireDefault(_teamComponent);
 	
-	var _itemContainerComponent = __webpack_require__(24);
+	var _itemContainerComponent = __webpack_require__(22);
 	
 	var _itemContainerComponent2 = _interopRequireDefault(_itemContainerComponent);
 	
@@ -36804,8 +36804,6 @@
 	
 	var _home2 = _interopRequireDefault(_home);
 	
-	__webpack_require__(15);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var HomeComponent = {
@@ -36870,8 +36868,8 @@
 	            this.$state.go('team', { teamId: encodeURIComponent(this.selectedTeam.uuid), team: this.selectedTeam });
 	        }
 	    }, {
-	        key: 'isSeleted',
-	        value: function isSeleted(teamId) {
+	        key: 'isSelected',
+	        value: function isSelected(teamId) {
 	            return this.selectedTeam && this.selectedTeam.uuid == teamId;
 	        }
 	    }]);
@@ -36886,26 +36884,129 @@
 /* 14 */
 /***/ function(module, exports) {
 
-	module.exports = "<h3>Hello: {{$ctrl.user.display_name}}</h3>\r\n<span>Please select your role in bitbucket team</span>\r\n<select ng-options=\"role for role in $ctrl.roles\" ng-model=\"$ctrl.selectedRole\">\r\n        <option value=\"\">-- choose role --</option>\r\n</select>\r\n<button ng-click=\"$ctrl.getUserTeams()\" ng-if=\"$ctrl.selectedRole\">Show teams</button>\r\n<br/>\r\n<div ng-class=\"{'sl-team-block': true, selected: $ctrl.isSeleted(team.uuid)}\" ng-repeat=\"team in $ctrl.userTeams\" ng-click=\"$ctrl.setSelected(team)\">{{team.display_name}}</div>\r\n<br/>\r\n <ui-view></ui-view>\r\n\r\n\r\n\r\n"
+	module.exports = "<h3>Hello: {{$ctrl.user.display_name}}</h3>\r\n<span>Please select your role in bitbucket team</span>\r\n<select ng-options=\"role for role in $ctrl.roles\" ng-model=\"$ctrl.selectedRole\">\r\n        <option value=\"\">-- choose role --</option>\r\n</select>\r\n<button ng-click=\"$ctrl.getUserTeams()\" ng-if=\"$ctrl.selectedRole\">Show teams</button>\r\n<br/>\r\n<item-container ng-repeat=\"team in $ctrl.userTeams\" sl-selected=\"$ctrl.isSelected(team.uuid)\" sl-value=\"team.display_name\" ng-click=\"$ctrl.setSelected(team)\"></item-container>\r\n<br/>\r\n <ui-view></ui-view>"
 
 /***/ },
 /* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	   value: true
+	});
+	
+	var _teamController = __webpack_require__(16);
+	
+	var _teamController2 = _interopRequireDefault(_teamController);
+	
+	var _team = __webpack_require__(17);
+	
+	var _team2 = _interopRequireDefault(_team);
+	
+	__webpack_require__(18);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var TeamComponent = {
+	   bindings: {
+	      slTeam: '<'
+	   },
+	   template: _team2.default,
+	   controller: _teamController2.default
+	};
+	
+	exports.default = TeamComponent;
+
+/***/ },
+/* 16 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var TeamController = function () {
+	    function TeamController(HomeSvc) {
+	        var _this = this;
+	
+	        _classCallCheck(this, TeamController);
+	
+	        this.HomeSvc = HomeSvc;
+	        this.members = [];
+	        this.projects = [];
+	        this.selectedMember;
+	        this.selectedProject;
+	        this.loading = false;
+	        if (this.slTeam) {
+	            this.HomeSvc.getDataByLink(this.slTeam.links.members.href).then(function (response) {
+	                console.log("getTeamMembers", response);
+	                _this.members = response.values;
+	            });
+	            this.HomeSvc.getDataByLink(this.slTeam.links.projects.href).then(function (response) {
+	                console.log("getTeamProjects", response);
+	                _this.projects = response.values;
+	            });
+	        }
+	    }
+	
+	    _createClass(TeamController, [{
+	        key: "setSelected",
+	        value: function setSelected(type, item) {
+	            if (type.toLowerCase() === 'project') {
+	                this.selectedProject && this.selectedProject.uuid == item.uuid ? this.selectedProject = undefined : this.selectedProject = item;
+	            } else if (type.toLowerCase() === 'member') {
+	                this.selectedMember && this.selectedMember.uuid == item.uuid ? this.selectedMember = undefined : this.selectedMember = item;
+	            }
+	            console.log("this.selectedMember >>>>>", this.selectedMember);
+	        }
+	    }, {
+	        key: "isSelected",
+	        value: function isSelected(type, itemId) {
+	            if (type.toLowerCase() === 'project') {
+	                return this.selectedProject && this.selectedProject.uuid == itemId;
+	            } else if (type.toLowerCase() === 'member') {
+	                return this.selectedMember && this.selectedMember.uuid == itemId;
+	            }
+	        }
+	    }]);
+	
+	    return TeamController;
+	}();
+	
+	TeamController.$inject = ['HomeSvc'];
+	exports.default = TeamController;
+
+/***/ },
+/* 17 */
+/***/ function(module, exports) {
+
+	module.exports = "<section class=\"sl-team\">    \r\n    \r\n    <div class=\"members\">\r\n        Team Members:\r\n        <item-container ng-repeat=\"member in $ctrl.members\" \r\n                        sl-selected=\"$ctrl.isSelected('member',member.uuid)\" \r\n                        ng-click=\"$ctrl.setSelected('member', member)\"\r\n                        sl-value=\"member.display_name\">\r\n        </item-container>\r\n    </div>\r\n    <hr/>\r\n    <div class=\"projects\">\r\n        Team Projects:        \r\n        <item-container ng-repeat=\"pr in $ctrl.projects\" \r\n                        sl-selected=\"$ctrl.isSelected('project', pr.uuid)\" \r\n                        ng-click=\"$ctrl.setSelected('project', pr)\"\r\n                        sl-value=\"pr.name\">\r\n        </item-container>\r\n    </div>\r\n</section>"
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(16);
+	var content = __webpack_require__(19);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(18)(content, {});
+	var update = __webpack_require__(21)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./home.css", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js!./home.css");
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js!./team.css", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js!./team.css");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -36915,21 +37016,21 @@
 	}
 
 /***/ },
-/* 16 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(17)();
+	exports = module.exports = __webpack_require__(20)();
 	// imports
 	
 	
 	// module
-	exports.push([module.id, ".sl-team-block {\r\n    padding: .5rem;\r\n    margin: .1rem;\r\n    border: 1px solid black;\r\n    display: inline-block;\r\n    cursor: pointer;\r\n}\r\n\r\n.sl-team-block.selected {\r\n    background-color: lightgray;\r\n}\r\n\r\n.sl-team-block:hover {\r\n    background-color: white;\r\n}", ""]);
+	exports.push([module.id, ".sl-team {\r\n    padding: 1.5rem;    \r\n}", ""]);
 	
 	// exports
 
 
 /***/ },
-/* 17 */
+/* 20 */
 /***/ function(module, exports) {
 
 	/*
@@ -36985,7 +37086,7 @@
 
 
 /***/ },
-/* 18 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -37237,134 +37338,20 @@
 
 
 /***/ },
-/* 19 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	   value: true
-	});
-	
-	var _teamController = __webpack_require__(20);
-	
-	var _teamController2 = _interopRequireDefault(_teamController);
-	
-	var _team = __webpack_require__(21);
-	
-	var _team2 = _interopRequireDefault(_team);
-	
-	__webpack_require__(22);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var TeamComponent = {
-	   bindings: {
-	      slTeam: '<'
-	   },
-	   template: _team2.default,
-	   controller: _teamController2.default
-	};
-	
-	exports.default = TeamComponent;
-
-/***/ },
-/* 20 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var TeamController = function TeamController(HomeSvc) {
-	    var _this = this;
-	
-	    _classCallCheck(this, TeamController);
-	
-	    this.HomeSvc = HomeSvc;
-	    this.members = [];
-	    this.projects = [];
-	    this.loading = false;
-	    if (this.slTeam) {
-	        this.HomeSvc.getDataByLink(this.slTeam.links.members.href).then(function (response) {
-	            console.log("getTeamMembers", response);
-	            _this.members = response.values;
-	        });
-	        this.HomeSvc.getDataByLink(this.slTeam.links.projects.href).then(function (response) {
-	            console.log("getTeamProjects", response);
-	            _this.projects = response.values;
-	        });
-	    }
-	};
-	
-	TeamController.$inject = ['HomeSvc'];
-	exports.default = TeamController;
-
-/***/ },
-/* 21 */
-/***/ function(module, exports) {
-
-	module.exports = "<section class=\"sl-team\">    \r\n    \r\n    <div class=\"members\">\r\n        Team Members:\r\n        <item-container ng-repeat=\"member in $ctrl.members\" sl-selected=false sl-value=\"{{member.display_name}}\"></item-container>        \r\n    </div>\r\n    <hr/>\r\n    <div class=\"projects\">\r\n        Team Projects:\r\n        <div ng-repeat=\"pr in $ctrl.projects\">{{pr.name}}</div>\r\n    </div>\r\n</section>"
-
-/***/ },
 /* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(23);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(18)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../node_modules/css-loader/index.js!./team.css", function() {
-				var newContent = require("!!./../../../../node_modules/css-loader/index.js!./team.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 23 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(17)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, ".sl-team {\r\n    padding: 1.5rem;    \r\n}\r\n\r\n.sl-team .members>div,\r\n.sl-team .projects>div {\r\n    padding: .5rem;\r\n    margin: .1rem;\r\n    border: 1px solid black;\r\n    display: inline-block;\r\n    cursor: pointer;\r\n}\r\n\r\n.sl-team .members>div:hover,\r\n.sl-team .projects>div:hover {\r\n    background-color: white;\r\n}", ""]);
-	
-	// exports
-
-
-/***/ },
-/* 24 */
-/***/ function(module, exports, __webpack_require__) {
-
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 	
-	var _itemContainer = __webpack_require__(25);
+	var _itemContainer = __webpack_require__(23);
 	
 	var _itemContainer2 = _interopRequireDefault(_itemContainer);
 	
-	__webpack_require__(26);
+	__webpack_require__(24);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -37379,22 +37366,22 @@
 	exports.default = ItemContainerComponent;
 
 /***/ },
-/* 25 */
+/* 23 */
 /***/ function(module, exports) {
 
-	module.exports = "<div ng-class=\"{'item-container': true, selected: $ctrl.slSeleted}\">{{$ctrl.slValue}}</div>"
+	module.exports = "<div ng-class=\"{'item-container': true, selected: $ctrl.slSelected}\">{{$ctrl.slValue}}</div>\r\n"
 
 /***/ },
-/* 26 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(27);
+	var content = __webpack_require__(25);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(18)(content, {});
+	var update = __webpack_require__(21)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -37411,10 +37398,10 @@
 	}
 
 /***/ },
-/* 27 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(17)();
+	exports = module.exports = __webpack_require__(20)();
 	// imports
 	
 	
@@ -37425,16 +37412,16 @@
 
 
 /***/ },
-/* 28 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(29);
+	var content = __webpack_require__(27);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(18)(content, {});
+	var update = __webpack_require__(21)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -37451,10 +37438,10 @@
 	}
 
 /***/ },
-/* 29 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(17)();
+	exports = module.exports = __webpack_require__(20)();
 	// imports
 	
 	

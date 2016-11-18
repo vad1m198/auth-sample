@@ -32,7 +32,7 @@ class HomeController {
          this.$state.go('team', { teamId : encodeURIComponent(this.selectedTeam.uuid), team : this.selectedTeam });            
     }
 
-    isSeleted(teamId) {
+    isSelected(teamId) {
         return this.selectedTeam && this.selectedTeam.uuid == teamId;
     }
 }
