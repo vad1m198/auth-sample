@@ -1,17 +1,3 @@
 .sl-team {
     padding: 1.5rem;    
 }
-
-.sl-team .members>div,
-.sl-team .projects>div {
-    padding: .5rem;
-    margin: .1rem;
-    border: 1px solid black;
-    display: inline-block;
-    cursor: pointer;
-}
-
-.sl-team .members>div:hover,
-.sl-team .projects>div:hover {
-    background-color: white;
-}

@@ -1,0 +1,15 @@
+.item-container {
+    padding: .5rem;
+    margin: .1rem;
+    border: 1px solid black;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.item-container:hover {
+    background-color: white;
+}
+
+.item-container.selected {
+    background-color: lightgray;
+}

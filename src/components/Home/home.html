@@ -5,9 +5,10 @@
 </select>
 <button ng-click="$ctrl.getUserTeams()" ng-if="$ctrl.selectedRole">Show teams</button>
 <br/>
-<div ng-class="{'sl-team-block': true, selected: $ctrl.isSeleted(team.uuid)}" ng-repeat="team in $ctrl.userTeams" ng-click="$ctrl.setSelected(team)">{{team.display_name}}</div>
+<item-container ng-repeat="team in $ctrl.userTeams" sl-selected="$ctrl.isSeleted(team.uuid)" sl-value="team.display_name" ng-click="$ctrl.setSelected(team)"></item-container>
 <br/>
  <ui-view></ui-view>
 
 
 
+<!--div ng-class="{'sl-team-block': true, selected: $ctrl.isSeleted(team.uuid)}" ng-repeat="team in $ctrl.userTeams" ng-click="$ctrl.setSelected(team)">{{team.display_name}}</div->

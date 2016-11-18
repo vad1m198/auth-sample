@@ -2,11 +2,11 @@
     
     <div class="members">
         Team Members:
-        <div ng-repeat="member in $ctrl.members">{{member.display_name}}</div>
+        <item-container ng-repeat="member in $ctrl.members" sl-selected=false sl-value="member.display_name"></item-container>
     </div>
     <hr/>
     <div class="projects">
-        Team Projects:
-        <div ng-repeat="pr in $ctrl.projects">{{pr.name}}</div>
+        Team Projects:        
+        <item-container ng-repeat="pr in $ctrl.projects" sl-selected=false sl-value="pr.name"></item-container>
     </div>
 </section>

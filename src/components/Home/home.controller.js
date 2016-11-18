@@ -26,7 +26,7 @@ class HomeController {
         });
     }
 
-    setSelected(team) {
+    setSelected(team) {         
          this.selectedTeam && this.selectedTeam.uuid == team.uuid
             ? this.selectedTeam = undefined : this.selectedTeam = team;
          this.$state.go('team', { teamId : encodeURIComponent(this.selectedTeam.uuid), team : this.selectedTeam });            

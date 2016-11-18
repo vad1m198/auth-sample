@@ -69,7 +69,7 @@
 	
 	var _homeModule2 = _interopRequireDefault(_homeModule);
 	
-	__webpack_require__(24);
+	__webpack_require__(28);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -36679,6 +36679,10 @@
 	
 	var _teamComponent2 = _interopRequireDefault(_teamComponent);
 	
+	var _itemContainerComponent = __webpack_require__(24);
+	
+	var _itemContainerComponent2 = _interopRequireDefault(_itemContainerComponent);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var homeModule = _angular2.default.module('home-module', [_angularUiRouter2.default]).config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider) {
@@ -36700,7 +36704,7 @@
 	            $scope.team = $stateParams.team;
 	        }]
 	    });
-	}]).component('home', _homeComponent2.default).component('slTeam', _teamComponent2.default).service('HomeSvc', _homeService2.default).name;
+	}]).component('home', _homeComponent2.default).component('slTeam', _teamComponent2.default).component('itemContainer', _itemContainerComponent2.default).service('HomeSvc', _homeService2.default).name;
 	
 	exports.default = homeModule;
 
@@ -37304,7 +37308,7 @@
 /* 21 */
 /***/ function(module, exports) {
 
-	module.exports = "<section class=\"sl-team\">    \r\n    \r\n    <div class=\"members\">\r\n        Team Members:\r\n        <div ng-repeat=\"member in $ctrl.members\">{{member.display_name}}</div>\r\n    </div>\r\n    <hr/>\r\n    <div class=\"projects\">\r\n        Team Projects:\r\n        <div ng-repeat=\"pr in $ctrl.projects\">{{pr.name}}</div>\r\n    </div>\r\n</section>"
+	module.exports = "<section class=\"sl-team\">    \r\n    \r\n    <div class=\"members\">\r\n        Team Members:\r\n        <item-container ng-repeat=\"member in $ctrl.members\" sl-selected=false sl-value=\"{{member.display_name}}\"></item-container>        \r\n    </div>\r\n    <hr/>\r\n    <div class=\"projects\">\r\n        Team Projects:\r\n        <div ng-repeat=\"pr in $ctrl.projects\">{{pr.name}}</div>\r\n    </div>\r\n</section>"
 
 /***/ },
 /* 22 */
@@ -37350,10 +37354,84 @@
 /* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _itemContainer = __webpack_require__(25);
+	
+	var _itemContainer2 = _interopRequireDefault(_itemContainer);
+	
+	__webpack_require__(26);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var ItemContainerComponent = {
+	    bindings: {
+	        slValue: '<',
+	        slSelected: '<'
+	    },
+	    template: _itemContainer2.default
+	};
+	
+	exports.default = ItemContainerComponent;
+
+/***/ },
+/* 25 */
+/***/ function(module, exports) {
+
+	module.exports = "<div ng-class=\"{'item-container': true, selected: $ctrl.slSeleted}\">{{$ctrl.slValue}}</div>"
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(25);
+	var content = __webpack_require__(27);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(18)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js!./itemContainer.css", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js!./itemContainer.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 27 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(17)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".item-container {\r\n    padding: .5rem;\r\n    margin: .1rem;\r\n    border: 1px solid black;\r\n    display: inline-block;\r\n    cursor: pointer;\r\n}\r\n\r\n.item-container:hover {\r\n    background-color: white;\r\n}\r\n\r\n.item-container.selected {\r\n    background-color: lightgray;\r\n}", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(29);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(18)(content, {});
@@ -37373,7 +37451,7 @@
 	}
 
 /***/ },
-/* 25 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(17)();
