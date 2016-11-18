@@ -2,19 +2,12 @@
     
     <div class="members">
         Team Members:
-        <item-container ng-repeat="member in $ctrl.members" 
-                        sl-selected="$ctrl.isSelected('member',member.uuid)" 
-                        ng-click="$ctrl.setSelected('member', member)"
-                        sl-value="member.display_name">
-        </item-container>
+        <div class="sl-ui-link" ng-repeat="member in $ctrl.members">{{member.display_name}}</div>
     </div>
     <hr/>
     <div class="projects">
         Team Projects:        
-        <item-container ng-repeat="pr in $ctrl.projects" 
-                        sl-selected="$ctrl.isSelected('project', pr.uuid)" 
-                        ng-click="$ctrl.setSelected('project', pr)"
-                        sl-value="pr.name">
-        </item-container>
+        <div class="sl-ui-link" ng-repeat="pr in $ctrl.projects">{{pr.name}}</div>
     </div>
 </section>
+

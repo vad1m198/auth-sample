@@ -2,12 +2,19 @@ class HomeSvc {
 	constructor($http, AuthSvc) {
         this.apiUrl = 'https://api.bitbucket.org/2.0/';
         this.$http = $http;
-        this.AuthSvc = AuthSvc;  
+        this.AuthSvc = AuthSvc;
         this.access_token;
+        this.teams = [];
 	}
 
     getDataByLink(url) {
-         return this.$http.get(url + "?access_token=" + this.access_token)
+         let urlWithAccessToken;
+         if(url.indexOf('?q=') == -1) {
+             urlWithAccessToken = url + "?access_token=" + this.access_token;
+         } else {
+             urlWithAccessToken = url + "&access_token=" + this.access_token;
+         }
+         return this.$http.get(urlWithAccessToken)
             .then(response => response.data);	
     }
 
@@ -20,6 +27,14 @@ class HomeSvc {
     getUserTeams(role) {        
 	return this.$http.get(this.apiUrl + 'teams/?role='+ role + "&access_token=" + this.access_token)
             .then(response => response.data);	
+    }
+
+    setTeams(teamsArray) {
+        this.teams = teamsArray;
+    }
+
+    getTeams() {
+        return this.teams;
     }
 
     /*

@@ -4,7 +4,7 @@
 - show my teams `done`
 - show teams repos `done`
 - show repos commits `done`
-- when user login, user should see all teams in different sections - `done`
+- when user login, user should see all teams in different sections `done`
 - in each team section user can select a teammate and see his commits to team repositories `done`
 
 - When user login he should see greeting Hello %bb_user_display_name% `done`
@@ -15,6 +15,7 @@
 - in section we should show all available team members `done`
 - in another section we should show all available projects `done`
 
+- 
 
 ## Description
 - Now when user login he can see only teams where user is a member

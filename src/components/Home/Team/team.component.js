@@ -4,7 +4,7 @@ import './team.css';
 
 let TeamComponent = {
    bindings: {
-        slTeam: '<'
+        slTeamId: '<'
     },
     template,
     controller
