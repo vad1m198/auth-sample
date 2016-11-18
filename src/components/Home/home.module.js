@@ -12,14 +12,12 @@ let homeModule = angular.module('home-module', [uiRouter])
                 url: '/home',        
                 template: `<home></home>`,
             })
-        "ngInject";
-        $stateProvider
             .state('team', {
                 parent: 'home',
-                url: '/:teamuuid',
-                template: `<sl-team sl-team-id="teamuuid"></sl-team>`,                
+                url: '/:username',
+                template: `<sl-team sl-user-name="username"></sl-team>`,                
                 controller: function($stateParams, $scope) {
-                    $scope.teamuuid = $stateParams.teamuuid;
+                    $scope.username = $stateParams.username;
                 }
             });
         })

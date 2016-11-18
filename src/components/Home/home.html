@@ -5,6 +5,6 @@
 </select>
 <button ng-click="$ctrl.getUserTeams()" ng-if="$ctrl.selectedRole">Show teams</button>
 <br/>
-<div class="sl-ui-link" ng-repeat="team in $ctrl.userTeams" ui-sref="team({teamuuid : team.uuid})" ui-sref-active="selected">{{team.display_name}}</div>
+<div class="sl-ui-link" ng-repeat="team in $ctrl.userTeams" ui-sref="team({username : team.username})" ui-sref-active="selected">{{team.display_name}}</div>
 <br/>
  <ui-view></ui-view>

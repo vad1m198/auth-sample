@@ -4,7 +4,7 @@ class TeamController {
         this.members = [];
         this.projects = [];
         this.loading = false;
-        this.slTeam = this.HomeSvc.getTeams().find(t => t.uuid === this.slTeamId );
+        this.slTeam = this.HomeSvc.getTeams().find(t => t.username === this.slUserName );
         if(this.slTeam) {
             this.HomeSvc.getDataByLink(this.slTeam.links.members.href).then( response => {
                 console.log("getTeamMembers", response)

@@ -7,9 +7,9 @@
 }
 
 .sl-ui-link:hover {
-    background-color: lightgray;
+    background-color: white;
 }
 
 .sl-ui-link.selected {
-    background-color: white;
+    background-color: lightgray;
 }
