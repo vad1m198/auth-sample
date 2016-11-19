@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --progress",
-    "start":"webpack-dev-server --inline"
+    "start": "webpack-dev-server --inline"
   },
   "repository": {
     "type": "git",
@@ -30,7 +30,9 @@
   },
   "dependencies": {
     "angular": "^1.5.8",
+    "angular-chart.js": "^1.0.3",
     "angular-ui-router": "^0.3.2",
+    "chart.js": "^2.4.0",
     "normalize.css": "^5.0.0"
   }
 }

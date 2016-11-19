@@ -5,3 +5,7 @@
              ng-repeat="commit in $ctrl.getCommits()">{{commit.hash}}</div>
     </div>
 </section>
+        <canvas id="line" class="chart chart-line" chart-data="$ctrl.data"
+              chart-labels="$ctrl.labels" chart-series="$ctrl.series" chart-options="$ctrl.options"
+              chart-dataset-override="$ctrl.datasetOverride" chart-click="$ctrl.onClick">
+        </canvas>
