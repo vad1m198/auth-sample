@@ -6,6 +6,7 @@ class HomeSvc {
         this.access_token;
         this.teams = [];
         this.projects = [];
+        this.repos = [];
 	}
 
     getDataByLink(url) {
@@ -44,6 +45,14 @@ class HomeSvc {
 
     getProjects() {
         return this.projects;
+    }
+
+    setRepos(reposArray) {
+        this.repos = reposArray;
+    }
+
+    getRepos() {
+        return this.repos;
     }
 
     /*

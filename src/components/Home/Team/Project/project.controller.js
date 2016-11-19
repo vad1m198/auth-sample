@@ -9,6 +9,7 @@ class ProjectController {
             this.HomeSvc.getDataByLink(this.project.links.repositories.href.replace(/'/g, "")).then( response => {
                 console.log("getProjectRepos", response)
                 this.repos = response.values;
+                this.HomeSvc.setRepos(response.values);
             });
         }
     }

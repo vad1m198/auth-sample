@@ -4,6 +4,7 @@ import HomeSrv from './home.service.js';
 import HomeComponent from './home.component.js';
 import TeamComponent from './Team/team.component.js';
 import ProjectComponent from './Team/Project/project.component.js';
+import RepoComponent from './Team/Project/Repo/repo.component.js';
 
 let homeModule = angular.module('home-module', [uiRouter])
     .config(($stateProvider, $urlRouterProvider) => {
@@ -28,11 +29,20 @@ let homeModule = angular.module('home-module', [uiRouter])
                 controller: function($stateParams, $scope) {
                     $scope.key = $stateParams.projectKey;
                 }
+            })
+            .state('repo', {
+                parent: 'project',
+                url: '/:reponame',
+                template: `<sl-repo sl-repo-name="name"></sl-repo>`,                
+                controller: function($stateParams, $scope) {
+                    $scope.name = $stateParams.reponame;
+                }
             });
         })
     .component('home', HomeComponent)
     .component('slTeam', TeamComponent)
     .component('slProject', ProjectComponent)
+    .component('slRepo', RepoComponent)
     .service('HomeSvc', HomeSrv)
     .name;
 

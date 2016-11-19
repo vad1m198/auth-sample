@@ -1,7 +1,10 @@
 <section class="sl-project">    
     <div class="repos">
         Project Repos:        
-        <div class="sl-ui-link" 
+        <div ui-sref="repo({reponame : repo.name})" 
+             ui-sref-active="selected"
+             class="sl-ui-link" 
              ng-repeat="repo in $ctrl.repos">{{repo.name}}</div>
     </div>
 </section>
+<ui-view></ui-view>

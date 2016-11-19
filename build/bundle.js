@@ -69,7 +69,7 @@
 	
 	var _homeModule2 = _interopRequireDefault(_homeModule);
 	
-	__webpack_require__(29);
+	__webpack_require__(34);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -36683,6 +36683,10 @@
 	
 	var _projectComponent2 = _interopRequireDefault(_projectComponent);
 	
+	var _repoComponent = __webpack_require__(29);
+	
+	var _repoComponent2 = _interopRequireDefault(_repoComponent);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var homeModule = _angular2.default.module('home-module', [_angularUiRouter2.default]).config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider) {
@@ -36705,8 +36709,15 @@
 	        controller: ["$stateParams", "$scope", function controller($stateParams, $scope) {
 	            $scope.key = $stateParams.projectKey;
 	        }]
+	    }).state('repo', {
+	        parent: 'project',
+	        url: '/:reponame',
+	        template: '<sl-repo sl-repo-name="name"></sl-repo>',
+	        controller: ["$stateParams", "$scope", function controller($stateParams, $scope) {
+	            $scope.name = $stateParams.reponame;
+	        }]
 	    });
-	}]).component('home', _homeComponent2.default).component('slTeam', _teamComponent2.default).component('slProject', _projectComponent2.default).service('HomeSvc', _homeService2.default).name;
+	}]).component('home', _homeComponent2.default).component('slTeam', _teamComponent2.default).component('slProject', _projectComponent2.default).component('slRepo', _repoComponent2.default).service('HomeSvc', _homeService2.default).name;
 	
 	exports.default = homeModule;
 
@@ -36734,6 +36745,7 @@
 	        this.access_token;
 	        this.teams = [];
 	        this.projects = [];
+	        this.repos = [];
 	    }
 	
 	    _createClass(HomeSvc, [{
@@ -36783,6 +36795,16 @@
 	        key: 'getProjects',
 	        value: function getProjects() {
 	            return this.projects;
+	        }
+	    }, {
+	        key: 'setRepos',
+	        value: function setRepos(reposArray) {
+	            this.repos = reposArray;
+	        }
+	    }, {
+	        key: 'getRepos',
+	        value: function getRepos() {
+	            return this.repos;
 	        }
 	
 	        /*
@@ -37432,6 +37454,7 @@
 	        this.HomeSvc.getDataByLink(this.project.links.repositories.href.replace(/'/g, "")).then(function (response) {
 	            console.log("getProjectRepos", response);
 	            _this.repos = response.values;
+	            _this.HomeSvc.setRepos(response.values);
 	        });
 	    }
 	};
@@ -37443,7 +37466,7 @@
 /* 26 */
 /***/ function(module, exports) {
 
-	module.exports = "<section class=\"sl-project\">    \r\n    <div class=\"repos\">\r\n        Project Repos:        \r\n        <div class=\"sl-ui-link\" \r\n             ng-repeat=\"repo in $ctrl.repos\">{{repo.name}}</div>\r\n    </div>\r\n</section>"
+	module.exports = "<section class=\"sl-project\">    \r\n    <div class=\"repos\">\r\n        Project Repos:        \r\n        <div ui-sref=\"repo({reponame : repo.name})\" \r\n             ui-sref-active=\"selected\"\r\n             class=\"sl-ui-link\" \r\n             ng-repeat=\"repo in $ctrl.repos\">{{repo.name}}</div>\r\n    </div>\r\n</section>\r\n<ui-view></ui-view>"
 
 /***/ },
 /* 27 */
@@ -37489,10 +37512,121 @@
 /* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _repoController = __webpack_require__(30);
+	
+	var _repoController2 = _interopRequireDefault(_repoController);
+	
+	var _repo = __webpack_require__(31);
+	
+	var _repo2 = _interopRequireDefault(_repo);
+	
+	__webpack_require__(32);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var RepoComponent = {
+	    bindings: {
+	        slRepoName: '<'
+	    },
+	    controller: _repoController2.default,
+	    template: _repo2.default
+	};
+	
+	exports.default = RepoComponent;
+
+/***/ },
+/* 30 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var RepoController = function RepoController(HomeSvc) {
+	    var _this = this;
+	
+	    _classCallCheck(this, RepoController);
+	
+	    this.HomeSvc = HomeSvc;
+	    this.commits = [];
+	    this.repo = this.HomeSvc.getRepos().find(function (p) {
+	        return p.name = _this.slRepoName;
+	    });
+	    if (this.repo) {
+	        this.HomeSvc.getDataByLink(this.repo.links.commits.href.replace(/'/g, "")).then(function (response) {
+	            console.log("getRepoCommits", response);
+	            _this.repos = response.values;
+	        });
+	    }
+	};
+	
+	RepoController.$inject = ['HomeSvc'];
+	exports.default = RepoController;
+
+/***/ },
+/* 31 */
+/***/ function(module, exports) {
+
+	module.exports = "<section class=\"sl-repo\">    \r\n    <div class=\"commits\">\r\n        Repo Commits:        \r\n        <div class=\"sl-ui-link\" \r\n             ng-repeat=\"commit in $ctrl.commits\">{{commit.hash}}</div>\r\n    </div>\r\n</section>"
+
+/***/ },
+/* 32 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(30);
+	var content = __webpack_require__(33);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(18)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./repo.css", function() {
+				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./repo.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 33 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(17)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".sl-repo {\r\n    padding: 1.5rem;\r\n}", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 34 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(35);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(18)(content, {});
@@ -37512,7 +37646,7 @@
 	}
 
 /***/ },
-/* 30 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(17)();
