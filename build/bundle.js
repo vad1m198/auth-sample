@@ -69,7 +69,7 @@
 	
 	var _homeModule2 = _interopRequireDefault(_homeModule);
 	
-	__webpack_require__(24);
+	__webpack_require__(29);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -36679,6 +36679,10 @@
 	
 	var _teamComponent2 = _interopRequireDefault(_teamComponent);
 	
+	var _projectComponent = __webpack_require__(24);
+	
+	var _projectComponent2 = _interopRequireDefault(_projectComponent);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var homeModule = _angular2.default.module('home-module', [_angularUiRouter2.default]).config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider) {
@@ -36687,17 +36691,22 @@
 	    $stateProvider.state('home', {
 	        url: '/home',
 	        template: '<home></home>'
-	    });
-	    "ngInject";
-	    $stateProvider.state('team', {
+	    }).state('team', {
 	        parent: 'home',
-	        url: '/:teamuuid',
-	        template: '<sl-team sl-team-id="teamuuid"></sl-team>',
+	        url: '/:username',
+	        template: '<sl-team sl-user-name="username"></sl-team>',
 	        controller: ["$stateParams", "$scope", function controller($stateParams, $scope) {
-	            $scope.teamuuid = $stateParams.teamuuid;
+	            $scope.username = $stateParams.username;
+	        }]
+	    }).state('project', {
+	        parent: 'team',
+	        url: '/:projectKey',
+	        template: '<sl-project sl-project-key="key"></sl-project>',
+	        controller: ["$stateParams", "$scope", function controller($stateParams, $scope) {
+	            $scope.key = $stateParams.projectKey;
 	        }]
 	    });
-	}]).component('home', _homeComponent2.default).component('slTeam', _teamComponent2.default).service('HomeSvc', _homeService2.default).name;
+	}]).component('home', _homeComponent2.default).component('slTeam', _teamComponent2.default).component('slProject', _projectComponent2.default).service('HomeSvc', _homeService2.default).name;
 	
 	exports.default = homeModule;
 
@@ -36724,6 +36733,7 @@
 	        this.AuthSvc = AuthSvc;
 	        this.access_token;
 	        this.teams = [];
+	        this.projects = [];
 	    }
 	
 	    _createClass(HomeSvc, [{
@@ -36763,6 +36773,16 @@
 	        key: 'getTeams',
 	        value: function getTeams() {
 	            return this.teams;
+	        }
+	    }, {
+	        key: 'setProjects',
+	        value: function setProjects(projectsArray) {
+	            this.projects = projectsArray;
+	        }
+	    }, {
+	        key: 'getProjects',
+	        value: function getProjects() {
+	            return this.projects;
 	        }
 	
 	        /*
@@ -36885,7 +36905,7 @@
 /* 14 */
 /***/ function(module, exports) {
 
-	module.exports = "<h3>Hello: {{$ctrl.user.display_name}}</h3>\r\n<span>Please select your role in bitbucket team</span>\r\n<select ng-options=\"role for role in $ctrl.roles\" ng-model=\"$ctrl.selectedRole\">\r\n        <option value=\"\">-- choose role --</option>\r\n</select>\r\n<button ng-click=\"$ctrl.getUserTeams()\" ng-if=\"$ctrl.selectedRole\">Show teams</button>\r\n<br/>\r\n<div class=\"sl-ui-link\" ng-repeat=\"team in $ctrl.userTeams\" ui-sref=\"team({teamuuid : team.uuid})\" ui-sref-active=\"selected\">{{team.display_name}}</div>\r\n<br/>\r\n <ui-view></ui-view>"
+	module.exports = "<h3>Hello: {{$ctrl.user.display_name}}</h3>\r\n<span>Please select your role in bitbucket team</span>\r\n<select ng-options=\"role for role in $ctrl.roles\" ng-model=\"$ctrl.selectedRole\">\r\n        <option value=\"\">-- choose role --</option>\r\n</select>\r\n<button ng-click=\"$ctrl.getUserTeams()\" ng-if=\"$ctrl.selectedRole\">Show teams</button>\r\n<br/>\r\n<div class=\"sl-ui-link\" ng-repeat=\"team in $ctrl.userTeams\" ui-sref=\"team({username : team.username})\" ui-sref-active=\"selected\">{{team.display_name}}</div>\r\n<br/>\r\n <ui-view></ui-view>"
 
 /***/ },
 /* 15 */
@@ -36922,7 +36942,7 @@
 	
 	
 	// module
-	exports.push([module.id, ".sl-ui-link {\r\n    display: inline-block;\r\n    margin: 0.2rem;\r\n    padding: 0.5rem;\r\n    border: 1px solid black;\r\n    cursor: pointer;\r\n}\r\n\r\n.sl-ui-link:hover {\r\n    background-color: lightgray;\r\n}\r\n\r\n.sl-ui-link.selected {\r\n    background-color: white;\r\n}", ""]);
+	exports.push([module.id, ".sl-ui-link {\r\n    display: inline-block;\r\n    margin: 0.2rem;\r\n    padding: 0.5rem;\r\n    border: 1px solid black;\r\n    cursor: pointer;\r\n}\r\n\r\n.sl-ui-link:hover {\r\n    background-color: white;\r\n}\r\n\r\n.sl-ui-link.selected {\r\n    background-color: lightgray;\r\n}", ""]);
 	
 	// exports
 
@@ -37259,7 +37279,7 @@
 	
 	var TeamComponent = {
 	   bindings: {
-	      slTeamId: '<'
+	      slUserName: '<'
 	   },
 	   template: _team2.default,
 	   controller: _teamController2.default
@@ -37286,19 +37306,20 @@
 	
 	    this.HomeSvc = HomeSvc;
 	    this.members = [];
-	    this.projects = [];
-	    this.loading = false;
+	    //this.projects = [];
+	    //this.loading = false;
 	    this.slTeam = this.HomeSvc.getTeams().find(function (t) {
-	        return t.uuid === _this.slTeamId;
+	        return t.username === _this.slUserName;
 	    });
 	    if (this.slTeam) {
-	        this.HomeSvc.getDataByLink(this.slTeam.links.members.href).then(function (response) {
-	            console.log("getTeamMembers", response);
-	            _this.members = response.values;
-	        });
+	        /*this.HomeSvc.getDataByLink(this.slTeam.links.members.href).then( response => {
+	            console.log("getTeamMembers", response)
+	            this.members = response.values;
+	        });*/
 	        this.HomeSvc.getDataByLink(this.slTeam.links.projects.href).then(function (response) {
 	            console.log("getTeamProjects", response);
 	            _this.projects = response.values;
+	            _this.HomeSvc.setProjects(response.values);
 	        });
 	    }
 	};
@@ -37310,7 +37331,7 @@
 /* 21 */
 /***/ function(module, exports) {
 
-	module.exports = "<section class=\"sl-team\">    \r\n    \r\n    <div class=\"members\">\r\n        Team Members:\r\n        <div class=\"sl-ui-link\" ng-repeat=\"member in $ctrl.members\">{{member.display_name}}</div>\r\n    </div>\r\n    <hr/>\r\n    <div class=\"projects\">\r\n        Team Projects:        \r\n        <div class=\"sl-ui-link\" ng-repeat=\"pr in $ctrl.projects\">{{pr.name}}</div>\r\n    </div>\r\n</section>\r\n\r\n"
+	module.exports = "<section class=\"sl-team\">    \r\n    \r\n    <!--div class=\"members\">\r\n        Team Members:\r\n        <div class=\"sl-ui-link\" ng-repeat=\"member in $ctrl.members\">{{member.display_name}}</div>\r\n    </div>\r\n    <hr/-->\r\n    <div class=\"projects\">\r\n        Team Projects:        \r\n        <div ui-sref=\"project({projectKey : pr.key})\" \r\n             ui-sref-active=\"selected\" \r\n             class=\"sl-ui-link\" \r\n             ng-repeat=\"pr in $ctrl.projects\">{{pr.name}}</div>\r\n    </div>\r\n</section>\r\n<ui-view></ui-view>\r\n\r\n"
 
 /***/ },
 /* 22 */
@@ -37356,10 +37377,122 @@
 /* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _projectController = __webpack_require__(25);
+	
+	var _projectController2 = _interopRequireDefault(_projectController);
+	
+	var _project = __webpack_require__(26);
+	
+	var _project2 = _interopRequireDefault(_project);
+	
+	__webpack_require__(27);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var ProjectComponent = {
+	    bindings: {
+	        slProjectKey: '<'
+	    },
+	    controller: _projectController2.default,
+	    template: _project2.default
+	};
+	
+	exports.default = ProjectComponent;
+
+/***/ },
+/* 25 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var ProjectController = function ProjectController(HomeSvc) {
+	    var _this = this;
+	
+	    _classCallCheck(this, ProjectController);
+	
+	    this.HomeSvc = HomeSvc;
+	    this.repos = [];
+	    this.project = this.HomeSvc.getProjects().find(function (p) {
+	        return p.key = _this.slProjectKey;
+	    });
+	    if (this.project) {
+	        console.log("this.project.links", this.project.links.repositories.href);
+	        this.HomeSvc.getDataByLink(this.project.links.repositories.href.replace(/'/g, "")).then(function (response) {
+	            console.log("getProjectRepos", response);
+	            _this.repos = response.values;
+	        });
+	    }
+	};
+	
+	ProjectController.$inject = ['HomeSvc'];
+	exports.default = ProjectController;
+
+/***/ },
+/* 26 */
+/***/ function(module, exports) {
+
+	module.exports = "<section class=\"sl-project\">    \r\n    <div class=\"repos\">\r\n        Project Repos:        \r\n        <div class=\"sl-ui-link\" \r\n             ng-repeat=\"repo in $ctrl.repos\">{{repo.name}}</div>\r\n    </div>\r\n</section>"
+
+/***/ },
+/* 27 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(25);
+	var content = __webpack_require__(28);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(18)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../../node_modules/css-loader/index.js!./project.css", function() {
+				var newContent = require("!!./../../../../../node_modules/css-loader/index.js!./project.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(17)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".sl-project {\r\n    padding-left: 1.5rem;\r\n}", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 29 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(30);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(18)(content, {});
@@ -37379,7 +37512,7 @@
 	}
 
 /***/ },
-/* 25 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(17)();
