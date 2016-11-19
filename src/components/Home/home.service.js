@@ -7,6 +7,8 @@ class HomeSvc {
         this.teams = [];
         this.projects = [];
         this.repos = [];
+        this.commits = [];
+        this.selectedMember = {};
 	}
 
     getDataByLink(url) {
@@ -53,6 +55,25 @@ class HomeSvc {
 
     getRepos() {
         return this.repos;
+    }
+
+    setCommits(commitsArray) {
+        this.commits = commitsArray;
+    }
+
+    getCommits() {
+        return this.commits
+                .filter( c => {return this.selectedMember.username ? 
+                                 c.author.user && 
+                                     c.author.user.username == this.selectedMember.username : true});
+    }
+    
+    setSelectedMember(memberObj) {
+        this.selectedMember = memberObj;
+    }
+
+    getSelectedMember() {
+        return this.selectedMember;
     }
 
     /*

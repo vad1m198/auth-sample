@@ -1,10 +1,19 @@
 <section class="sl-team">    
     
-    <!--div class="members">
+    <div class="members">
         Team Members:
-        <div class="sl-ui-link" ng-repeat="member in $ctrl.members">{{member.display_name}}</div>
+        <div ng-class="{'sl-ui-link': true, selected:$ctrl.selectedMember.uuid == member.uuid}"
+             ng-click="$ctrl.setSelectedMember(member)" 
+             ng-repeat="member in $ctrl.members">
+            {{member.display_name}}
+        </div>
+        <div class="sl-ui-link"
+             ng-if="$ctrl.members.length > 0" 
+             ng-click="$ctrl.setSelectedMember({})">
+             Unselect All
+        </div>
     </div>
-    <hr/-->
+    <hr/>
     <div class="projects">
         Team Projects:        
         <div ui-sref="project({projectKey : pr.key})" 
