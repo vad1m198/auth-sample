@@ -5,21 +5,14 @@ class RepoController {
         this.data = [];
         this.commits = [];
         this.$scope = $scope;
+        this.dates = this.getLast7DaysDates();        
         this.selectedMember = this.HomeSvc.getSelectedMember();
-        this.$scope.$watch(()=> this.HomeSvc.getSelectedMember(), ()=> {         
+        this.repo = this.HomeSvc.getRepos().find(p => p.name = this.slRepoName);
+        this.$scope.$watch(()=> this.HomeSvc.getSelectedMember(), 
+        ()=> {         
           this.selectedMember = this.HomeSvc.getSelectedMember();
           this.updateVisibleCommitsChart();
         }, true);
-        this.repo = this.HomeSvc.getRepos()
-                      .find(p => p.name = this.slRepoName);
-        this.today = new Date();
-        this.dates = [new Date(new Date().setDate(this.today.getDate() - 6)),
-                      new Date(new Date().setDate(this.today.getDate() - 5)),
-                      new Date(new Date().setDate(this.today.getDate() - 4)),
-                      new Date(new Date().setDate(this.today.getDate() - 3)),
-                      new Date(new Date().setDate(this.today.getDate() - 2)),
-                      new Date(new Date().setDate(this.today.getDate() - 1)),
-                      this.today];
 
        this.dates.forEach(d => this.labels.push( this.formatDate(d) ));
         this.commitNumberByDay = [];
@@ -32,7 +25,7 @@ class RepoController {
         }
     }
     
-    formatDate(dateObj) {
+    formatDate(dateObj) {      
       return (dateObj.getMonth() + 1) + '/' + dateObj.getDate();
     }
 
@@ -49,6 +42,19 @@ class RepoController {
         }
         this.data[0] = this.commitNumberByDay;
     }
+
+    getLast7DaysDates() {
+      let today = new Date();
+      return [new Date(new Date().setDate(today.getDate() - 6)),
+        new Date(new Date().setDate(today.getDate() - 5)),
+        new Date(new Date().setDate(today.getDate() - 4)),
+        new Date(new Date().setDate(today.getDate() - 3)),
+        new Date(new Date().setDate(today.getDate() - 2)),
+        new Date(new Date().setDate(today.getDate() - 1)),
+        today]
+    }
+
+
 
 }
 
