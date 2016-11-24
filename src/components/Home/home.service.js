@@ -57,7 +57,7 @@ class HomeSvc {
         return this.repos;
     }
 
-    setCommits(commitsArray) {
+    /*setCommits(commitsArray) {
         this.commits = commitsArray;
     }
 
@@ -66,10 +66,11 @@ class HomeSvc {
                 .filter( c => {return this.selectedMember.username ? 
                                  c.author.user && 
                                      c.author.user.username == this.selectedMember.username : true});
-    }
+    }*/
     
-    setSelectedMember(memberObj) {
+    setSelectedMember(memberObj) {        
         this.selectedMember = memberObj;
+        //console.log("setSelectedMember >>>>>>>>>", this.selectedMember)
     }
 
     getSelectedMember() {

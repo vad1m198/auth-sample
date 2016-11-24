@@ -2,7 +2,7 @@
     <div class="commits">
         Repo Commits:        
         <div class="sl-ui-link" 
-             ng-repeat="commit in $ctrl.getCommits()">{{commit.hash}}</div>
+             ng-repeat="commit in $ctrl.visibleCommits">{{commit.hash}}</div>
     </div>
 </section>    
 <!--canvas id="line" class="chart chart-line" chart-data="$ctrl.data"
